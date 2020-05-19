@@ -34,3 +34,14 @@ void registerDevices() {
         return;
     }
 }
+
+void readPacket () {
+    AVPacket pkt;
+    int ret = 0;
+    int count = 0;
+    av_init_packet(&pkt);
+    while (context && (ret = av_read_frame(context, &pkt) == 0) && count ++ < 500) {
+        printf("pkt size is %d \n", pkt.size);
+    }
+    av_packet_unref(&pkt);
+}

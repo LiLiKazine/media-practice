@@ -13,8 +13,10 @@
 #include "avutil.h"
 #include "avdevice.h"
 #include "avformat.h"
+#include "avcodec.h"
 
 void foo(void);
 void registerDevices(void);
+void readPacket(void);
 
 #endif /* testc_h */

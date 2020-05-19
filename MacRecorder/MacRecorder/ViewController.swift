@@ -18,6 +18,7 @@ class ViewController: NSViewController {
     
     @IBAction func action(_ sender: NSButton) {
         registerDevices()
+        readPacket()
     }
     
     override var representedObject: Any? {
