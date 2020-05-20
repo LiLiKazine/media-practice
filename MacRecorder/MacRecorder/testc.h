@@ -17,5 +17,6 @@
 
 void foo(void);
 void rec_audio(void);
+void stop_rec(void);
 
 #endif /* testc_h */

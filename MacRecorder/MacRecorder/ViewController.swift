@@ -9,14 +9,30 @@
 import Cocoa
 
 class ViewController: NSViewController {
-
+    
+    @IBOutlet weak var recButton: NSButton!
+    var recStatus: Bool = false
+    var thread: Thread?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
     }
     
     @IBAction func action(_ sender: NSButton) {
+        recStatus.toggle()
+        sender.title = recStatus ? "结束录制" : "开始录制"
+        if recStatus {
+            thread = .init(target: self, selector: #selector(recAudio), object: nil)
+            thread?.start()
+        } else {
+            stop_rec()
+        }
+    }
+    
+    @objc func recAudio() {
+        print("start thread.")
         rec_audio()
     }
     

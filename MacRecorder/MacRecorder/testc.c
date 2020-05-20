@@ -8,10 +8,16 @@
 
 #include "testc.h"
 
+static int rec_status = 0;
+
 void foo() {
     printf("a foo test.\n");
     av_log_set_level(AV_LOG_DEBUG);
     av_log(NULL, AV_LOG_DEBUG, "ffmpeg lib test.\n");
+}
+
+void stop_rec() {
+    rec_status = 0;
 }
 
 void rec_audio() {
@@ -44,14 +50,25 @@ void rec_audio() {
         return;
     }
     
+    //create file
+    char *outPath = "/Users/lisheng/Desktop/audio.pcm";
+    FILE *outfile = fopen(outPath, "wb+");
+    
     //read data from device
+    rec_status = 1;
     while ((ret = av_read_frame(fmt_ctx, &pkt)) == 0 &&
-           count++ < 500) {
+           rec_status) {
+        //write file
+        fwrite(pkt.data, pkt.size, 1, outfile);
         av_log(NULL, AV_LOG_DEBUG,
                "packet size is %d(%p), count=%d \n",
                pkt.size, pkt.data, count);
         av_packet_unref(&pkt); //release pkt
     }
+    
+    //close file
+    fclose(outfile);
+//    fflush(outfile);
     
     //close device and release ctx
     avformat_close_input(&fmt_ctx);
