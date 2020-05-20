@@ -17,8 +17,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func action(_ sender: NSButton) {
-        registerDevices()
-        readPacket()
+        rec_audio()
     }
     
     override var representedObject: Any? {
