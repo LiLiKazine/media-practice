@@ -56,16 +56,19 @@ void rec_audio() {
     
     //read data from device
     rec_status = 1;
-    while ((ret = av_read_frame(fmt_ctx, &pkt)) == 0 &&
-           rec_status) {
+    while (rec_status) {
+        if ((ret = av_read_frame(fmt_ctx, &pkt)) != 0) {
+            printf("%s\n", av_err2str(ret));
+            continue;
+        }
         //write file
         fwrite(pkt.data, pkt.size, 1, outfile);
         av_log(NULL, AV_LOG_DEBUG,
                "packet size is %d(%p), count=%d \n",
                pkt.size, pkt.data, count);
+        count++;
         av_packet_unref(&pkt); //release pkt
     }
-    
     //close file
     fclose(outfile);
 //    fflush(outfile);
