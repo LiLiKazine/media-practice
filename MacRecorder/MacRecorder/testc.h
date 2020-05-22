@@ -9,6 +9,7 @@
 #ifndef testc_h
 #define testc_h
 
+#include <unistd.h>
 #include <stdio.h>
 #include "avutil.h"
 #include "avdevice.h"

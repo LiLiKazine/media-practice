@@ -59,6 +59,9 @@ void rec_audio() {
     while (rec_status) {
         if ((ret = av_read_frame(fmt_ctx, &pkt)) != 0) {
             printf("%s\n", av_err2str(ret));
+            if (ret == -35) {
+                sleep(1);
+            }
             continue;
         }
         //write file
