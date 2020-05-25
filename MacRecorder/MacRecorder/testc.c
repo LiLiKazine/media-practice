@@ -54,6 +54,26 @@ void rec_audio() {
     char *outPath = "/Users/lisheng/Desktop/audio.pcm";
     FILE *outfile = fopen(outPath, "wb+");
     
+    //resample
+    SwrContext *swr_ctx = NULL;
+    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
+    
+    if (!swr_ctx) {
+        //TODO: NULL!
+    }
+    
+    if (swr_init(swr_ctx) < 0) {
+        //TODO: ERROR!
+    }
+    
+    uint8_t **src_data = NULL;
+    int src_linesize = 0;
+    av_samples_alloc_array_and_samples(&src_data, &src_linesize, 2, 4096/4/2, AV_SAMPLE_FMT_FLT, 0);
+    
+    uint8_t **dst_data = NULL;
+    int dst_linesize = 0;
+    av_samples_alloc_array_and_samples(&dst_data, &dst_linesize, 2, 4096/4/2, AV_SAMPLE_FMT_S16, 0);
+    
     //read data from device
     rec_status = 1;
     while (rec_status) {
@@ -64,17 +84,34 @@ void rec_audio() {
             }
             continue;
         }
-        //write file
-        fwrite(pkt.data, pkt.size, 1, outfile);
         av_log(NULL, AV_LOG_DEBUG,
                "packet size is %d(%p), count=%d \n",
                pkt.size, pkt.data, count);
+        
+        
+        memcpy((void*)src_data[0], (void*)pkt.data, pkt.size);
+        
+        //resample
+        swr_convert(swr_ctx, dst_data, 512, (const uint8_t **)src_data, 512);
+        
+        //write file
+        fwrite(dst_data[0], dst_linesize, 1, outfile);
+//        fflush(outfile);
         count++;
         av_packet_unref(&pkt); //release pkt
     }
     //close file
     fclose(outfile);
-//    fflush(outfile);
+    
+    if (src_data) {
+        av_freep(&src_data[0]);
+    }
+    av_freep(&src_data);
+    if (dst_data) {
+        av_freep(&dst_data[0]);
+    }
+    av_freep(&dst_data);
+    av_freep(&swr_ctx);
     
     //close device and release ctx
     avformat_close_input(&fmt_ctx);

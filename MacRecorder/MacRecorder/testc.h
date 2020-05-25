@@ -15,6 +15,7 @@
 #include "avdevice.h"
 #include "avformat.h"
 #include "avcodec.h"
+#include "swresample.h"
 
 void foo(void);
 void rec_audio(void);
