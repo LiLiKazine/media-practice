@@ -16,6 +16,19 @@ void foo() {
     av_log(NULL, AV_LOG_DEBUG, "ffmpeg lib test.\n");
 }
 
+SwrContext* init_swr() {
+    SwrContext *swr_ctx = NULL;
+    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
+    if (!swr_ctx) {
+        //TODO: NULL!
+    }
+    
+    if (swr_init(swr_ctx) < 0) {
+        //TODO: ERROR!
+    }
+    return swr_ctx;
+}
+
 void stop_rec() {
     rec_status = 0;
 }
@@ -55,16 +68,7 @@ void rec_audio() {
     FILE *outfile = fopen(outPath, "wb+");
     
     //resample
-    SwrContext *swr_ctx = NULL;
-    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
-    
-    if (!swr_ctx) {
-        //TODO: NULL!
-    }
-    
-    if (swr_init(swr_ctx) < 0) {
-        //TODO: ERROR!
-    }
+    SwrContext *swr_ctx = init_swr();
     
     uint8_t **src_data = NULL;
     int src_linesize = 0;
