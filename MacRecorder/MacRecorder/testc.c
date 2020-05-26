@@ -31,8 +31,8 @@ SwrContext* init_swr() {
 
 AVCodecContext* open_encoder() {
     //open codec
-    AVCodec *codec = avcodec_find_encoder(AV_CODEC_ID_AAC);
-//    AVCodec *codec = avcodec_find_encoder_by_name("libfdk_aac");
+//    AVCodec *codec = avcodec_find_encoder(AV_CODEC_ID_AAC);
+    AVCodec *codec = avcodec_find_encoder_by_name("libfdk_aac");
     AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
 //    codec_ctx->sample_fmt = AV_SAMPLE_FMT_S16;
     codec_ctx->sample_fmt = codec->sample_fmts[0];
