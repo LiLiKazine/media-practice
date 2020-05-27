@@ -33,9 +33,15 @@ AVCodecContext* open_encoder() {
     //open codec
 //    AVCodec *codec = avcodec_find_encoder(AV_CODEC_ID_AAC);
     AVCodec *codec = avcodec_find_encoder_by_name("libfdk_aac");
+    if (!codec) {
+        return NULL;
+    }
     AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
-//    codec_ctx->sample_fmt = AV_SAMPLE_FMT_S16;
-    codec_ctx->sample_fmt = codec->sample_fmts[0];
+    if (!codec_ctx) {
+        return NULL;
+    }
+    codec_ctx->sample_fmt = AV_SAMPLE_FMT_S16;
+//    codec_ctx->sample_fmt = codec->sample_fmts[0];
     codec_ctx->channel_layout = AV_CH_LAYOUT_STEREO;
     //    codec_ctx->channels = 2;
     codec_ctx->sample_rate = 44100;
