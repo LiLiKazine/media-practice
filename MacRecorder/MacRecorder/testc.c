@@ -45,7 +45,7 @@ AVCodecContext* open_encoder() {
     codec_ctx->channel_layout = AV_CH_LAYOUT_STEREO;
     //    codec_ctx->channels = 2;
     codec_ctx->sample_rate = 44100;
-    codec_ctx->bit_rate = 0;
+    codec_ctx->bit_rate = 0; // profile 指定
     codec_ctx->profile = FF_PROFILE_AAC_HE_V2;
     
     if (avcodec_open2(codec_ctx, codec, NULL) < 0) {
@@ -53,6 +53,28 @@ AVCodecContext* open_encoder() {
         return NULL;
     }
     return codec_ctx;
+}
+
+void encode(AVCodecContext *ctx, AVFrame *frame, AVPacket *pkt, FILE * output) {
+    int ret = 0;
+    
+    ret = avcodec_send_frame(ctx, frame);
+    
+    while (ret >= 0) {
+        ret = avcodec_receive_packet(ctx, pkt);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            //no packet avaliable
+            return;
+        } else if (ret < 0) {
+            printf("%s\n", av_err2str(ret));
+            exit(-1);
+        }
+    }
+    //write file
+    fwrite(pkt->data, 1, pkt->size, output);
+//  fflush(outfile);
+    
+    return;
 }
 
 void stop_rec() {
@@ -90,10 +112,29 @@ void rec_audio() {
     }
     
     //create file
-    char *outPath = "/Users/lisheng/Desktop/audio.pcm";
+    char *outPath = "/Users/lisheng/Desktop/audio.aac";
     FILE *outfile = fopen(outPath, "wb+");
     
     AVCodecContext *codec_ctx = open_encoder();
+    
+    //frame
+    AVFrame *frame = av_frame_alloc();
+    if (!frame) {
+        //TODO:Failure
+    }
+    frame->nb_samples = 4096/4/2;
+    frame->format = AV_SAMPLE_FMT_S16;
+    frame->channel_layout = AV_CH_LAYOUT_STEREO;
+    av_frame_get_buffer(frame, 0); //512 * 2 * 2 = 2048
+    
+    if (!frame->buf[0]) {
+        //TODO:Failure
+    }
+    
+    AVPacket *newpkt = av_packet_alloc();
+    if (!newpkt) {
+        //TODO:Failure
+    }
     
     //resample
     SwrContext *swr_ctx = init_swr();
@@ -126,12 +167,14 @@ void rec_audio() {
         //resample
         swr_convert(swr_ctx, dst_data, 512, (const uint8_t **)src_data, 512);
         
-        //write file
-        fwrite(dst_data[0], dst_linesize, 1, outfile);
-//        fflush(outfile);
+        memcpy((void *)frame->data[0], dst_data[0], dst_linesize);
+        
+        encode(codec_ctx, frame, newpkt, outfile);
+        
         count++;
         av_packet_unref(&pkt); //release pkt
     }
+    encode(codec_ctx, NULL, newpkt, outfile);
     //close file
     fclose(outfile);
     
@@ -143,7 +186,12 @@ void rec_audio() {
         av_freep(&dst_data[0]);
     }
     av_freep(&dst_data);
-    av_freep(&swr_ctx);
+    
+    swr_free(&swr_ctx);
+    
+    av_frame_free(&frame);
+    
+    av_packet_free(&newpkt);
     
     //close device and release ctx
     avformat_close_input(&fmt_ctx);
