@@ -20,11 +20,11 @@ SwrContext* init_swr() {
     SwrContext *swr_ctx = NULL;
     swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
     if (!swr_ctx) {
-        //TODO: NULL!
+        printf("swr_alloc_set_opts return null.");
     }
     
     if (swr_init(swr_ctx) < 0) {
-        //TODO: ERROR!
+        printf("swr_init error.");
     }
     return swr_ctx;
 }
@@ -38,6 +38,7 @@ AVCodecContext* open_encoder() {
     }
     AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
     if (!codec_ctx) {
+        printf("avcodec_alloc_context3 return null");
         return NULL;
     }
     codec_ctx->sample_fmt = AV_SAMPLE_FMT_S16;
@@ -50,6 +51,7 @@ AVCodecContext* open_encoder() {
     
     if (avcodec_open2(codec_ctx, codec, NULL) < 0) {
         //TODO: FAILED!
+        printf("avcodec_open2 failed.");
         return NULL;
     }
     return codec_ctx;
@@ -69,11 +71,10 @@ void encode(AVCodecContext *ctx, AVFrame *frame, AVPacket *pkt, FILE * output) {
             printf("%s\n", av_err2str(ret));
             exit(-1);
         }
+        //write file
+        fwrite(pkt->data, 1, pkt->size, output);
+        fflush(output);
     }
-    //write file
-    fwrite(pkt->data, 1, pkt->size, output);
-//  fflush(outfile);
-    
     return;
 }
 
@@ -87,7 +88,21 @@ void rec_audio() {
     
     //ctx
     AVFormatContext *fmt_ctx = NULL;
+    AVCodecContext  *codec_ctx = NULL;
+    SwrContext *swr_ctx = NULL;
+    
     AVDictionary *option = NULL;
+    
+    //set_log_level
+    av_log_set_level(AV_LOG_DEBUG);
+    
+    avdevice_register_all();
+    
+    rec_status = 1;
+    
+    //create file
+    char *outPath = "/Users/lisheng/Desktop/audio.aac";
+    FILE *outfile = fopen(outPath, "wb+");
     
     //pkt
     AVPacket pkt;
@@ -95,11 +110,6 @@ void rec_audio() {
     
     //[[video device]:[audio device]]
     char *devicename = ":0";
-    
-    //set_log_level
-    av_log_set_level(AV_LOG_DEBUG);
-    
-    avdevice_register_all();
     
     //get format
     AVInputFormat *iformat = av_find_input_format("avfoundation");
@@ -111,11 +121,8 @@ void rec_audio() {
         return;
     }
     
-    //create file
-    char *outPath = "/Users/lisheng/Desktop/audio.aac";
-    FILE *outfile = fopen(outPath, "wb+");
     
-    AVCodecContext *codec_ctx = open_encoder();
+    codec_ctx = open_encoder();
     
     //frame
     AVFrame *frame = av_frame_alloc();
@@ -137,7 +144,7 @@ void rec_audio() {
     }
     
     //resample
-    SwrContext *swr_ctx = init_swr();
+    swr_ctx = init_swr();
     
     uint8_t **src_data = NULL;
     int src_linesize = 0;
@@ -148,7 +155,6 @@ void rec_audio() {
     av_samples_alloc_array_and_samples(&dst_data, &dst_linesize, 2, 4096/4/2, AV_SAMPLE_FMT_S16, 0);
     
     //read data from device
-    rec_status = 1;
     while (rec_status) {
         if ((ret = av_read_frame(fmt_ctx, &pkt)) != 0) {
             printf("%s\n", av_err2str(ret));
