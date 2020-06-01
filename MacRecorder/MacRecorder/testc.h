@@ -16,6 +16,7 @@
 #include "avformat.h"
 #include "avcodec.h"
 #include "swresample.h"
+#include "time.h"
 
 void foo(void);
 void rec_audio(void);

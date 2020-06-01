@@ -15,6 +15,7 @@
 #include "avformat.h"
 #include "avcodec.h"
 #include "swresample.h"
+#include "time.h"
 //#include "avutil.h"
 //#include "time.h"
 //#include "avdevice.h"

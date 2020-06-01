@@ -169,7 +169,8 @@ static void read_data_and_encode(AVFormatContext *fmt_ctx,
                           SwrContext *swr_ctx,
                           AVCodecContext *c_ctx,
                           FILE *outfile) {
-    
+    int errcount = 0;
+
     int ret = 0;
     //pkt
     AVPacket pkt;
@@ -201,13 +202,26 @@ static void read_data_and_encode(AVFormatContext *fmt_ctx,
     
     //read data from device
     while (rec_status) {
-        if ((ret = av_read_frame(fmt_ctx, &pkt)) != 0) {
+        
+        ret = av_read_frame(fmt_ctx, &pkt);
+        if(ret < 0){
             printf("%s\n", av_err2str(ret));
-            if (ret == -35) {
-                sleep(1);
+            if (ret == AVERROR(EAGAIN)) {
+
+                //连续5次则退出
+                if(5 == errcount++){
+                    break;
+                }
+
+                //如果设备没有准备好，那就等一小会
+                av_usleep(10000);
+                continue;
             }
-            continue;
+
+            break;
         }
+        
+        errcount = 0;
         
         memcpy((void*)src_data[0], (void*)pkt.data, pkt.size);
         

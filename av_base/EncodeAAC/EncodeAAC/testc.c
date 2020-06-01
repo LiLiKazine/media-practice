@@ -332,9 +332,8 @@ void rec_audio() {
     rec_status = 1;
     
     //create file
-    //char *out = "/Users/lichao/Downloads/av_base/audio.pcm";
-    char *out = "/Users/lichao/Downloads/av_base/audio.aac";
-    FILE *outfile = fopen(out, "wb+");
+    char *outPath = "/Users/lisheng/Desktop/audio.aac";
+    FILE *outfile = fopen(outPath, "wb+");
     if(!outfile){
         printf("Error, Failed to open file!\n");
         goto __ERROR;
