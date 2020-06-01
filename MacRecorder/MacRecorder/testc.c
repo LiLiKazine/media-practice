@@ -208,12 +208,10 @@ static void read_data_and_encode(AVFormatContext *fmt_ctx,
             printf("%s\n", av_err2str(ret));
             if (ret == AVERROR(EAGAIN)) {
 
-                //连续5次则退出
                 if(5 == errcount++){
                     break;
                 }
 
-                //如果设备没有准备好，那就等一小会
                 av_usleep(10000);
                 continue;
             }
