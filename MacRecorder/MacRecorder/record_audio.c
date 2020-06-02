@@ -78,7 +78,7 @@ static void encode(AVCodecContext *ctx, AVFrame *frame, AVPacket *pkt, FILE * ou
     return;
 }
 
-void stop_rec() {
+void stop_rec_audio() {
     rec_status = 0;
 }
 

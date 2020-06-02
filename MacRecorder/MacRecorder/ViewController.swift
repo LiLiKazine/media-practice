@@ -27,13 +27,13 @@ class ViewController: NSViewController {
             thread = .init(target: self, selector: #selector(recAudio), object: nil)
             thread?.start()
         } else {
-            stop_rec()
+            stop_rec_video()
         }
     }
     
     @objc func recAudio() {
         print("start thread.")
-        rec_audio()
+        rec_video()
     }
     
     override var representedObject: Any? {

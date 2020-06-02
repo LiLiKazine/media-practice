@@ -1,13 +1,13 @@
 //
-//  record_audio.h
+//  record_video.h
 //  MacRecorder
 //
-//  Created by LiLi Kazine on 2020/5/16.
+//  Created by Li Sheng on 2020/6/2.
 //  Copyright © 2020 LiLi Kazine. All rights reserved.
 //
 
-#ifndef record_audio_h
-#define record_audio_h
+#ifndef record_video_h
+#define record_video_h
 
 #include <unistd.h>
 #include <stdio.h>
@@ -18,8 +18,8 @@
 #include "swresample.h"
 #include "time.h"
 
-void foo(void);
-void rec_audio(void);
-void stop_rec_audio(void);
+void rec_video(void);
+void stop_rec_video(void);
 
-#endif /* record_audio_h */
+
+#endif /* record_video_h */

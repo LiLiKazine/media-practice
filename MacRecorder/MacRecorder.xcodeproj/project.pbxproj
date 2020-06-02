@@ -60,6 +60,7 @@
 		1A1B0EA9247D1B9D00EF0DB0 /* libswscale.5.6.101.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A1B0E7B247D1B9600EF0DB0 /* libswscale.5.6.101.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A1B0EAA247D1B9D00EF0DB0 /* libswscale.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A1B0E6E247D1B9500EF0DB0 /* libswscale.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A1B0EAB247D1B9E00EF0DB0 /* libswscale.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A1B0E6C247D1B9400EF0DB0 /* libswscale.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1A59188C2485F3BF0031A1B8 /* record_video.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A59188B2485F3BF0031A1B8 /* record_video.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -256,6 +257,8 @@
 		1A1B0E79247D1B9500EF0DB0 /* libswresample.3.6.100.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libswresample.3.6.100.dylib; sourceTree = "<group>"; };
 		1A1B0E7A247D1B9500EF0DB0 /* libswresample.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libswresample.3.dylib; sourceTree = "<group>"; };
 		1A1B0E7B247D1B9600EF0DB0 /* libswscale.5.6.101.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libswscale.5.6.101.dylib; sourceTree = "<group>"; };
+		1A59188A2485F3BF0031A1B8 /* record_video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = record_video.h; sourceTree = "<group>"; };
+		1A59188B2485F3BF0031A1B8 /* record_video.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = record_video.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +326,8 @@
 				09783712246F8C2F002A8C54 /* record_audio.h */,
 				09783713246F8C2F002A8C54 /* record_audio.c */,
 				09783711246F8C2F002A8C54 /* MacRecorder-Bridging-Header.h */,
+				1A59188A2485F3BF0031A1B8 /* record_video.h */,
+				1A59188B2485F3BF0031A1B8 /* record_video.c */,
 			);
 			path = MacRecorder;
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A59188C2485F3BF0031A1B8 /* record_video.c in Sources */,
 				09783714246F8C2F002A8C54 /* record_audio.c in Sources */,
 				09783704246F899E002A8C54 /* ViewController.swift in Sources */,
 				09783702246F899E002A8C54 /* AppDelegate.swift in Sources */,
