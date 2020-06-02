@@ -1,12 +1,12 @@
 //
-//  testc.c
+//  record_audio.c
 //  MacRecorder
 //
 //  Created by LiLi Kazine on 2020/5/16.
 //  Copyright © 2020 LiLi Kazine. All rights reserved.
 //
 
-#include "testc.h"
+#include "record_audio.h"
 
 static int rec_status = 0;
 

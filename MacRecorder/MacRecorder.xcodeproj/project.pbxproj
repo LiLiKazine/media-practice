@@ -11,7 +11,7 @@
 		09783704246F899E002A8C54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09783703246F899E002A8C54 /* ViewController.swift */; };
 		09783706246F89A0002A8C54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09783705246F89A0002A8C54 /* Assets.xcassets */; };
 		09783709246F89A0002A8C54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09783707246F89A0002A8C54 /* Main.storyboard */; };
-		09783714246F8C2F002A8C54 /* testc.c in Sources */ = {isa = PBXBuildFile; fileRef = 09783713246F8C2F002A8C54 /* testc.c */; };
+		09783714246F8C2F002A8C54 /* record_audio.c in Sources */ = {isa = PBXBuildFile; fileRef = 09783713246F8C2F002A8C54 /* record_audio.c */; };
 		1A1B0E7C247D1B9600EF0DB0 /* libavformat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1B0E64247D1B9300EF0DB0 /* libavformat.dylib */; };
 		1A1B0E7D247D1B9600EF0DB0 /* libavfilter.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1B0E65247D1B9400EF0DB0 /* libavfilter.7.dylib */; };
 		1A1B0E7E247D1B9600EF0DB0 /* libavfilter.7.82.100.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1B0E66247D1B9400EF0DB0 /* libavfilter.7.82.100.dylib */; };
@@ -108,8 +108,8 @@
 		0978370A246F89A0002A8C54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0978370B246F89A0002A8C54 /* MacRecorder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacRecorder.entitlements; sourceTree = "<group>"; };
 		09783711246F8C2F002A8C54 /* MacRecorder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MacRecorder-Bridging-Header.h"; sourceTree = "<group>"; };
-		09783712246F8C2F002A8C54 /* testc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = testc.h; sourceTree = "<group>"; };
-		09783713246F8C2F002A8C54 /* testc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = testc.c; sourceTree = "<group>"; };
+		09783712246F8C2F002A8C54 /* record_audio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = record_audio.h; sourceTree = "<group>"; };
+		09783713246F8C2F002A8C54 /* record_audio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = record_audio.c; sourceTree = "<group>"; };
 		1A1B0DD3247D1B5400EF0DB0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		1A1B0DD4247D1B5400EF0DB0 /* postprocess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postprocess.h; sourceTree = "<group>"; };
 		1A1B0DD6247D1B5400EF0DB0 /* adts_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = adts_parser.h; sourceTree = "<group>"; };
@@ -320,8 +320,8 @@
 				09783707246F89A0002A8C54 /* Main.storyboard */,
 				0978370A246F89A0002A8C54 /* Info.plist */,
 				0978370B246F89A0002A8C54 /* MacRecorder.entitlements */,
-				09783712246F8C2F002A8C54 /* testc.h */,
-				09783713246F8C2F002A8C54 /* testc.c */,
+				09783712246F8C2F002A8C54 /* record_audio.h */,
+				09783713246F8C2F002A8C54 /* record_audio.c */,
 				09783711246F8C2F002A8C54 /* MacRecorder-Bridging-Header.h */,
 			);
 			path = MacRecorder;
@@ -623,7 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09783714246F8C2F002A8C54 /* testc.c in Sources */,
+				09783714246F8C2F002A8C54 /* record_audio.c in Sources */,
 				09783704246F899E002A8C54 /* ViewController.swift in Sources */,
 				09783702246F899E002A8C54 /* AppDelegate.swift in Sources */,
 			);

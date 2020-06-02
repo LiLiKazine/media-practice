@@ -1,13 +1,13 @@
 //
-//  testc.h
+//  record_audio.h
 //  MacRecorder
 //
 //  Created by LiLi Kazine on 2020/5/16.
 //  Copyright © 2020 LiLi Kazine. All rights reserved.
 //
 
-#ifndef testc_h
-#define testc_h
+#ifndef record_audio_h
+#define record_audio_h
 
 #include <unistd.h>
 #include <stdio.h>
@@ -22,4 +22,4 @@ void foo(void);
 void rec_audio(void);
 void stop_rec(void);
 
-#endif /* testc_h */
+#endif /* record_audio_h */
