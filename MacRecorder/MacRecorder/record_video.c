@@ -81,7 +81,7 @@ static void open_encoder(int width, int height, AVCodecContext **enc_ctx) {
     
     (*enc_ctx)->pix_fmt = AV_PIX_FMT_YUV420P;
     
-    (*enc_ctx)->bit_rate = 1000000; //1000kbps
+    (*enc_ctx)->bit_rate = 600000; //600kbps
     
     (*enc_ctx)->time_base = (AVRational){1, 25}; // 帧间隔
     (*enc_ctx)->framerate = (AVRational){25, 1};;
@@ -211,6 +211,7 @@ void rec_video() {
     }
     
     int ret = 0;
+    int base = 0;
     
     AVPacket pkt;
     
@@ -241,6 +242,8 @@ void rec_video() {
             fwrite(frame->data[0], 1, V_WIDTH*V_HEIGHT, yuvoutfile);
             fwrite(frame->data[1], 1, V_WIDTH*V_HEIGHT/4, yuvoutfile);
             fwrite(frame->data[2], 1, V_WIDTH*V_HEIGHT/4, yuvoutfile);
+            
+            frame->pts = base++;
             
             encode(enc_ctx, frame, newpkt, outfile);
             
