@@ -17,10 +17,15 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Log.setLevel()
+        
         
     }
     
     @IBAction func action(_ sender: NSButton) {
+        
+        Log.print("a test message")
+        return
         recStatus.toggle()
         sender.title = recStatus ? "结束录制" : "开始录制"
         if recStatus {
