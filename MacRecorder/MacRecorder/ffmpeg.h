@@ -11,8 +11,11 @@
 
 #include <stdio.h>
 #include "log.h"
+#include "avformat.h"
 
 void set_log_level(int);
 void output(int level, const char *fmt);
+int delete_file(const char *url);
+int move_file(const char *src, const char *dst);
 
 #endif /* ffmpeg_h */

@@ -706,24 +706,15 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="MacRecorder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="230"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lal-W0-hlB">
-                                <rect key="frame" x="199" y="110" width="82" height="50"/>
+                            <stackView distribution="fillEqually" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lnz-RV-kLc">
+                                <rect key="frame" x="12" y="29" width="82" height="173"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hH2-7l-7cQ">
-                                        <rect key="frame" x="-6" y="22" width="94" height="32"/>
-                                        <buttonCell key="cell" type="push" title="打开文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9gS-bs-og1">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="openFileAction:" target="XfG-lQ-9wD" id="etf-MT-tf3"/>
-                                        </connections>
-                                    </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ezU-O6-MNy">
-                                        <rect key="frame" x="-6" y="-7" width="94" height="32"/>
+                                    <button verticalHuggingPriority="750" id="ezU-O6-MNy">
+                                        <rect key="frame" x="-47" y="22" width="94" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" title="开始录制" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hhu-0D-6FM">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -732,30 +723,65 @@
                                             <action selector="recAction:" target="XfG-lQ-9wD" id="XGg-SF-cc4"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" id="hH2-7l-7cQ">
+                                        <rect key="frame" x="-47" y="22" width="94" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="导入文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9gS-bs-og1">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="importFileAction:" target="XfG-lQ-9wD" id="etf-MT-tf3"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkY-8e-0hb">
+                                        <rect key="frame" x="-6" y="-7" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="删除文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uBg-vr-GOA">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="deleteFileAction:" target="XfG-lQ-9wD" id="KPm-4o-zl7"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <visibilityPriorities>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cih-MK-0KX">
+                                <rect key="frame" x="222" y="206" width="37" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="kGg-IS-sfC">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="lal-W0-hlB" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="7uE-EB-h8f"/>
-                            <constraint firstItem="lal-W0-hlB" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="9Sp-NP-Uwc"/>
+                            <constraint firstItem="lnz-RV-kLc" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="VSg-Z8-Yiv"/>
+                            <constraint firstItem="lnz-RV-kLc" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="Xg9-7V-Tqb"/>
+                            <constraint firstItem="cih-MK-0KX" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="xyz-qF-eiH"/>
+                            <constraint firstItem="cih-MK-0KX" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="zfR-c5-Zxr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="deleteBtn" destination="BkY-8e-0hb" id="hMg-Fr-yg5"/>
                         <outlet property="fileBtn" destination="hH2-7l-7cQ" id="Dsk-aE-eBo"/>
+                        <outlet property="fileNameTf" destination="cih-MK-0KX" id="Z10-mz-fXA"/>
                         <outlet property="recButton" destination="ezU-O6-MNy" id="PMG-ya-VIy"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="698"/>
         </scene>
     </scenes>
 </document>

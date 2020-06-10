@@ -11,10 +11,20 @@ import Combine
 
 class ViewController: NSViewController {
     
+    @IBOutlet weak var fileNameTf: NSTextField!
     @IBOutlet weak var recButton: NSButton!
     @IBOutlet weak var fileBtn: NSButton!
+    @IBOutlet weak var deleteBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
+    
+    var filePath: URL? {
+        didSet {
+            DispatchQueue.main.async {
+                self.fileNameTf.stringValue = self.filePath?.path ?? ""
+            }
+        }
+    }
     
     var recStatus: Bool = false
     var thread: Thread?
@@ -24,20 +34,32 @@ class ViewController: NSViewController {
         
         Log.setLevel()
         
-        
     }
     
-    @IBAction func openFileAction(_ sender: NSButton) {
+    @IBAction func deleteFileAction(_ sender: NSButton) {
+        guard let path = filePath?.path else {
+            return
+        }
+        let res = delete_file(path)
+        if res >= 0 {
+            print("delete \(path) succeeded.")
+            filePath = nil
+        }
+    }
+    
+    @IBAction func importFileAction(_ sender: NSButton) {
         guard let window = view.window else {
             return
         }
         FileOperator.openFile(window: window)
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion{
                 case .finished: break
                 case .failure(_): break
                 }
             }) { url in
+                self.filePath = url
                 Log.print(url.path)
         }
     .store(in: &subscriptions)
