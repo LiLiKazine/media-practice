@@ -56,6 +56,7 @@ void read_dir(const char *url) {
             break;
         }
         av_log(NULL, AV_LOG_INFO, "%12"PRId64" %s \n", entry->size, entry->name);
+        avio_free_directory_entry(&entry);
     }
     
     avio_close_dir(&ctx);
