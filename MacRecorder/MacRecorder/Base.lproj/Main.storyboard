@@ -710,32 +710,30 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fillEqually" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lnz-RV-kLc">
-                                <rect key="frame" x="12" y="29" width="82" height="173"/>
+                                <rect key="frame" x="12" y="47" width="82" height="137"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" id="ezU-O6-MNy">
-                                        <rect key="frame" x="-47" y="22" width="94" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="开始录制" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hhu-0D-6FM">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jYM-Ra-FDY">
+                                        <rect key="frame" x="-6" y="109" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="开始录制" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pKO-xr-6Dv">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="recAction:" target="XfG-lQ-9wD" id="XGg-SF-cc4"/>
+                                            <action selector="recAction:" target="XfG-lQ-9wD" id="v80-3K-cYj"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="hH2-7l-7cQ">
-                                        <rect key="frame" x="-47" y="22" width="94" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="导入文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9gS-bs-og1">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nnV-Rp-3Y8">
+                                        <rect key="frame" x="-6" y="80" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="选择文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="v0U-Nd-VuB">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="importFileAction:" target="XfG-lQ-9wD" id="etf-MT-tf3"/>
+                                            <action selector="importFileAction:" target="XfG-lQ-9wD" id="Mbf-Ly-Qq7"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkY-8e-0hb">
-                                        <rect key="frame" x="-6" y="-7" width="94" height="32"/>
+                                        <rect key="frame" x="-6" y="51" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="删除文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uBg-vr-GOA">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -744,8 +742,30 @@
                                             <action selector="deleteFileAction:" target="XfG-lQ-9wD" id="KPm-4o-zl7"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OqX-DN-1Ua">
+                                        <rect key="frame" x="-6" y="22" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="选择目录" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tYO-Bp-xak">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="openDirectoryAction:" target="XfG-lQ-9wD" id="QOQ-xU-EIg"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PcU-uC-FMZ">
+                                        <rect key="frame" x="-6" y="-7" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="移动文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l8H-GF-sRv">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="moveAction:" target="XfG-lQ-9wD" id="lGT-18-4KJ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -754,29 +774,55 @@
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cih-MK-0KX">
-                                <rect key="frame" x="222" y="206" width="37" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="kGg-IS-sfC">
-                                    <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                            <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mow-oi-FRk">
+                                <rect key="frame" x="197" y="182" width="87" height="40"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cih-MK-0KX">
+                                        <rect key="frame" x="15" y="24" width="56" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="File Path" id="kGg-IS-sfC">
+                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9b6-OG-RhS">
+                                        <rect key="frame" x="-2" y="0.0" width="91" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Directory Path" id="Xhk-vE-3Ie">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="lnz-RV-kLc" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="VSg-Z8-Yiv"/>
                             <constraint firstItem="lnz-RV-kLc" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="Xg9-7V-Tqb"/>
-                            <constraint firstItem="cih-MK-0KX" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="xyz-qF-eiH"/>
-                            <constraint firstItem="cih-MK-0KX" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="zfR-c5-Zxr"/>
+                            <constraint firstItem="Mow-oi-FRk" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="rWB-hi-qTv"/>
+                            <constraint firstItem="Mow-oi-FRk" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="sVf-od-cwu"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="deleteBtn" destination="BkY-8e-0hb" id="hMg-Fr-yg5"/>
-                        <outlet property="fileBtn" destination="hH2-7l-7cQ" id="Dsk-aE-eBo"/>
-                        <outlet property="fileNameTf" destination="cih-MK-0KX" id="Z10-mz-fXA"/>
-                        <outlet property="recButton" destination="ezU-O6-MNy" id="PMG-ya-VIy"/>
+                        <outlet property="dirBtn" destination="OqX-DN-1Ua" id="kwL-AF-UYB"/>
+                        <outlet property="dirPathTf" destination="9b6-OG-RhS" id="beh-JH-vy1"/>
+                        <outlet property="fileBtn" destination="nnV-Rp-3Y8" id="Ga6-Sz-b2g"/>
+                        <outlet property="filePathTf" destination="cih-MK-0KX" id="Z10-mz-fXA"/>
+                        <outlet property="movBtn" destination="PcU-uC-FMZ" id="IsB-Qk-6rS"/>
+                        <outlet property="recButton" destination="jYM-Ra-FDY" id="Gh1-t1-neY"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -11,13 +11,13 @@ import Combine
 
 class FileOperator {
     
-    class func openFile(window: NSWindow) -> AnyPublisher<URL, FileError>  {
+    class func selectPath(window: NSWindow, allowDirectory: Bool = false) -> AnyPublisher<URL, FileError>  {
         return Future<URL, FileError> { promise in
             let home = FileManager.default.homeDirectoryForCurrentUser
             let panel = NSOpenPanel()
             panel.directoryURL = home
             panel.canChooseFiles = true
-            panel.canChooseDirectories = false
+            panel.canChooseDirectories = allowDirectory
             panel.allowsMultipleSelection = false
             panel.beginSheetModal(for: window) { result in
                 if result == .OK, let url = panel.url {
