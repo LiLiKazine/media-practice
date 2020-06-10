@@ -77,6 +77,7 @@ class ViewController: NSViewController {
                 }
             }) { url in
                 self.dirPath = url
+                read_dir(url.path)
                 Log.print(url.path)
         }
         .store(in: &subscriptions)

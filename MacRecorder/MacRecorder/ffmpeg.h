@@ -17,5 +17,6 @@ void set_log_level(int);
 void output(int level, const char *fmt);
 int delete_file(const char *url);
 int move_file(const char *src, const char *dst);
+void read_dir(const char *url);
 
 #endif /* ffmpeg_h */
