@@ -7,10 +7,15 @@
 //
 
 import Cocoa
+import Combine
 
 class ViewController: NSViewController {
     
     @IBOutlet weak var recButton: NSButton!
+    @IBOutlet weak var fileBtn: NSButton!
+    
+    var subscriptions: Set<AnyCancellable> = []
+    
     var recStatus: Bool = false
     var thread: Thread?
     
@@ -22,10 +27,23 @@ class ViewController: NSViewController {
         
     }
     
-    @IBAction func action(_ sender: NSButton) {
-        
-        Log.print("a test message")
-        return
+    @IBAction func openFileAction(_ sender: NSButton) {
+        guard let window = view.window else {
+            return
+        }
+        FileOperator.openFile(window: window)
+            .sink(receiveCompletion: { completion in
+                switch completion{
+                case .finished: break
+                case .failure(_): break
+                }
+            }) { url in
+                Log.print(url.path)
+        }
+    .store(in: &subscriptions)
+    }
+    
+    @IBAction func recAction(_ sender: NSButton) {
         recStatus.toggle()
         sender.title = recStatus ? "结束录制" : "开始录制"
         if recStatus {
@@ -43,10 +61,10 @@ class ViewController: NSViewController {
     
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
-
-
+    
+    
 }
 
