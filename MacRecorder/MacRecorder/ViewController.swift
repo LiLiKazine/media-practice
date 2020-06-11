@@ -18,6 +18,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var deleteBtn: NSButton!
     @IBOutlet weak var dirBtn: NSButton!
     @IBOutlet weak var movBtn: NSButton!
+    @IBOutlet weak var metaBtn: NSButton!
+    @IBOutlet weak var extractAudioBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -45,6 +47,27 @@ class ViewController: NSViewController {
         
         Log.setLevel()
         
+    }
+    
+    @IBAction func extractAudioAction(_ sender: NSButton) {
+        guard
+            let src = filePath?.path,
+            let filename = filePath?.deletingPathExtension().lastPathComponent,
+            let dst = dirPath?.appendingPathComponent(filename).appendingPathExtension("aac")
+                .path else {
+                return
+        }
+        DispatchQueue.global(qos: .userInitiated)
+            .async {
+                extract_audio(src, dst)
+        }
+    }
+    
+    @IBAction func metaAction(_ sender: NSButton) {
+        guard let path = filePath?.path else {
+            return
+        }
+        dump_meta(path)
     }
     
     @IBAction func moveAction(_ sender: NSButton) {

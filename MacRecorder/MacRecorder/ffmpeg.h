@@ -18,5 +18,7 @@ void output(int level, const char *fmt);
 int delete_file(const char *url);
 int move_file(const char *src, const char *dst);
 void read_dir(const char *url);
+void dump_meta(const char *url);
+void extract_audio(const char *src, const char *dst);
 
 #endif /* ffmpeg_h */
