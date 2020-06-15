@@ -20,6 +20,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var movBtn: NSButton!
     @IBOutlet weak var metaBtn: NSButton!
     @IBOutlet weak var extractAudioBtn: NSButton!
+    @IBOutlet weak var extractVideoBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -49,13 +50,27 @@ class ViewController: NSViewController {
         
     }
     
+    @IBAction func extractVideoAction(_ sender: NSButton) {
+        guard
+            let src = filePath?.path,
+            let filename = filePath?.deletingPathExtension().lastPathComponent,
+            let dst = dirPath?.appendingPathComponent(filename).appendingPathExtension("h264")
+                .path else {
+                    return
+        }
+        DispatchQueue.global(qos: .userInitiated)
+            .async {
+                extract_video(src, dst)
+        }
+    }
+    
     @IBAction func extractAudioAction(_ sender: NSButton) {
         guard
             let src = filePath?.path,
             let filename = filePath?.deletingPathExtension().lastPathComponent,
             let dst = dirPath?.appendingPathComponent(filename).appendingPathExtension("aac")
                 .path else {
-                return
+                    return
         }
         DispatchQueue.global(qos: .userInitiated)
             .async {
