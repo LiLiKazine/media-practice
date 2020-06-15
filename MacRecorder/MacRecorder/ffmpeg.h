@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "log.h"
 #include "avformat.h"
+#include "timestamp.h"
 
 void set_log_level(int);
 void output(int level, const char *fmt);
@@ -21,5 +22,6 @@ void read_dir(const char *url);
 void dump_meta(const char *url);
 void extract_audio(const char *src, const char *dst);
 void extract_video(const char *src, const char *dst);
+void mp4_2_flv(const char *in_filename, const char *out_filename);
 
 #endif /* ffmpeg_h */

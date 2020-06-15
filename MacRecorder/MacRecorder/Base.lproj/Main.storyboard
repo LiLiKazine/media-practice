@@ -710,10 +710,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fillEqually" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lnz-RV-kLc">
-                                <rect key="frame" x="12" y="3" width="87" height="224"/>
+                                <rect key="frame" x="12" y="-11" width="87" height="253"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jYM-Ra-FDY">
-                                        <rect key="frame" x="-3" y="196" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="225" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="开始录制" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pKO-xr-6Dv">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -723,7 +723,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nnV-Rp-3Y8">
-                                        <rect key="frame" x="-3" y="167" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="196" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="选择文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="v0U-Nd-VuB">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -733,7 +733,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkY-8e-0hb">
-                                        <rect key="frame" x="-3" y="138" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="167" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="删除文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uBg-vr-GOA">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -743,7 +743,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OqX-DN-1Ua">
-                                        <rect key="frame" x="-3" y="109" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="138" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="选择目录" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tYO-Bp-xak">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -753,7 +753,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PcU-uC-FMZ">
-                                        <rect key="frame" x="-3" y="80" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="109" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="移动文件" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l8H-GF-sRv">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -763,7 +763,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9EI-eP-ddI">
-                                        <rect key="frame" x="-6" y="51" width="99" height="32"/>
+                                        <rect key="frame" x="-6" y="80" width="99" height="32"/>
                                         <buttonCell key="cell" type="push" title="输出Meta" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qh1-JY-wSh">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -773,7 +773,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5mr-LY-wQz">
-                                        <rect key="frame" x="-3" y="22" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="51" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="提取音频" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AaD-h8-wVt">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -783,13 +783,23 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qKg-KM-GTX">
-                                        <rect key="frame" x="-3" y="-7" width="94" height="32"/>
+                                        <rect key="frame" x="-3" y="22" width="94" height="32"/>
                                         <buttonCell key="cell" type="push" title="提取视频" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="T1X-7y-siK">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="extractVideoAction:" target="XfG-lQ-9wD" id="Tc3-Eg-zOj"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BWz-sp-eRG">
+                                        <rect key="frame" x="-3" y="-7" width="94" height="32"/>
+                                        <buttonCell key="cell" type="push" title="格式转换" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hR6-kR-0Zv">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="reformatAction:" target="XfG-lQ-9wD" id="nnu-Wa-75b"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -802,8 +812,10 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -862,6 +874,7 @@
                         <outlet property="metaBtn" destination="9EI-eP-ddI" id="s3c-i1-n6H"/>
                         <outlet property="movBtn" destination="PcU-uC-FMZ" id="IsB-Qk-6rS"/>
                         <outlet property="recButton" destination="jYM-Ra-FDY" id="Gh1-t1-neY"/>
+                        <outlet property="reformatBtn" destination="BWz-sp-eRG" id="Eai-Pl-uNL"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
