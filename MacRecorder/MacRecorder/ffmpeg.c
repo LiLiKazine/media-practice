@@ -385,8 +385,8 @@ int h264_mp4toannexb(AVFormatContext *fmt_ctx, AVPacket *pkt, FILE *video_file) 
         }
         if (unit_type == 5) {
             //关键帧 需要sps pps
-            h264_extradata_to_annexb(fmt_ctx->streams[pkt->stream_index]->codec->extradata,
-                                     fmt_ctx->streams[pkt->stream_index]->codec->extradata_size,
+            h264_extradata_to_annexb(fmt_ctx->streams[pkt->stream_index]->codecpar->extradata,
+                                     fmt_ctx->streams[pkt->stream_index]->codecpar->extradata_size,
                                      &spspps_pkt,
                                      AV_INPUT_BUFFER_PADDING_SIZE);
             if ((ret = alloc_and_copy(out,
