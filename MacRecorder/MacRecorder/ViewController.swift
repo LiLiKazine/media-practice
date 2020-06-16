@@ -22,6 +22,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var extractAudioBtn: NSButton!
     @IBOutlet weak var extractVideoBtn: NSButton!
     @IBOutlet weak var reformatBtn: NSButton!
+    @IBOutlet weak var cutVideoBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -49,6 +50,19 @@ class ViewController: NSViewController {
         
         Log.setLevel()
         
+    }
+    @IBAction func cutAction(_ sender: NSButton) {
+        guard
+            let src = filePath?.path,
+            let filename = filePath?.deletingPathExtension().lastPathComponent,
+            let dst = dirPath?.appendingPathComponent(filename).appendingPathExtension("mp4")
+                .path else {
+                    return
+        }
+        DispatchQueue.global(qos: .userInitiated)
+            .async {
+                cut_video(200, 800, src, dst)
+        }
     }
     @IBAction func reformatAction(_ sender: NSButton) {
         guard

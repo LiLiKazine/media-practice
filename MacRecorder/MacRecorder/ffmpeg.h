@@ -23,5 +23,9 @@ void dump_meta(const char *url);
 void extract_audio(const char *src, const char *dst);
 void extract_video(const char *src, const char *dst);
 void mp4_2_flv(const char *in_filename, const char *out_filename);
+void cut_video(double from_seconds,
+              double end_seconds,
+              const char *in_filename,
+              const char *out_filename);
 
 #endif /* ffmpeg_h */
