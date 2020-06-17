@@ -13,7 +13,6 @@
 #include "libavutil/log.h"
 #include "libavformat/avformat.h"
 #include "libavutil/timestamp.h"
-#include "SDL2/SDL.h"
 
 void set_log_level(int);
 void output(int level, const char *fmt);

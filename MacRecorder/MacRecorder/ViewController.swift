@@ -23,6 +23,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var extractVideoBtn: NSButton!
     @IBOutlet weak var reformatBtn: NSButton!
     @IBOutlet weak var cutVideoBtn: NSButton!
+    @IBOutlet weak var playBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -51,6 +52,13 @@ class ViewController: NSViewController {
         Log.setLevel()
         
     }
+    
+    @IBAction func playAction(_ sender: NSButton) {
+        DispatchQueue.main.async {
+            create_renderer()            
+        }
+    }
+    
     @IBAction func cutAction(_ sender: NSButton) {
         guard
             let src = filePath?.path,
