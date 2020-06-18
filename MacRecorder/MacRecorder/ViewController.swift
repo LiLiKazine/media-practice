@@ -54,8 +54,11 @@ class ViewController: NSViewController {
     }
     
     @IBAction func playAction(_ sender: NSButton) {
+        guard let path = filePath?.path else {
+            return
+        }
         DispatchQueue.main.async {
-            create_renderer()            
+            play_video(path)
         }
     }
     
