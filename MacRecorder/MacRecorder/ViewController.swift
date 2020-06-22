@@ -23,7 +23,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var extractVideoBtn: NSButton!
     @IBOutlet weak var reformatBtn: NSButton!
     @IBOutlet weak var cutVideoBtn: NSButton!
-    @IBOutlet weak var playBtn: NSButton!
+    @IBOutlet weak var playVideoBtn: NSButton!
+    @IBOutlet weak var playPCMBtn: NSButton!
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -53,7 +54,16 @@ class ViewController: NSViewController {
         
     }
     
-    @IBAction func playAction(_ sender: NSButton) {
+    @IBAction func playPCMAction(_ sender: NSButton) {
+        guard let path = filePath?.path else {
+            return
+        }
+        DispatchQueue.main.async {
+            play_pcm(path)
+        }
+    }
+    
+    @IBAction func playVideoAction(_ sender: NSButton) {
         guard let path = filePath?.path else {
             return
         }
