@@ -67,6 +67,7 @@
 		1A25ECD62499BF8200556BE9 /* libSDL2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A25ECCF2499BF7B00556BE9 /* libSDL2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A25ECD92499C16100556BE9 /* sdl_render.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A25ECD82499C16100556BE9 /* sdl_render.c */; };
 		1A59188C2485F3BF0031A1B8 /* record_video.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A59188B2485F3BF0031A1B8 /* record_video.c */; };
+		1A8C87FE24A1CF4D0037EC8B /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C87FD24A1CF4D0037EC8B /* player.c */; };
 		1AA0042F248F82F100FEFC03 /* ffmpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AA0042E248F82F100FEFC03 /* ffmpeg.c */; };
 		1AA00431248F831000FEFC03 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA00430248F831000FEFC03 /* Log.swift */; };
 		1AA00433248F872300FEFC03 /* FileOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA00432248F872300FEFC03 /* FileOperator.swift */; };
@@ -350,6 +351,8 @@
 		1A25ECD82499C16100556BE9 /* sdl_render.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sdl_render.c; sourceTree = "<group>"; };
 		1A59188A2485F3BF0031A1B8 /* record_video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = record_video.h; sourceTree = "<group>"; };
 		1A59188B2485F3BF0031A1B8 /* record_video.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = record_video.c; sourceTree = "<group>"; };
+		1A8C87FC24A1CF4D0037EC8B /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
+		1A8C87FD24A1CF4D0037EC8B /* player.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
 		1AA0042D248F82F100FEFC03 /* ffmpeg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ffmpeg.h; sourceTree = "<group>"; };
 		1AA0042E248F82F100FEFC03 /* ffmpeg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ffmpeg.c; sourceTree = "<group>"; };
 		1AA00430248F831000FEFC03 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -436,6 +439,8 @@
 				1A25ECD82499C16100556BE9 /* sdl_render.c */,
 				1AF195C724A04536007DCB24 /* pcm_player.h */,
 				1AF195C824A04536007DCB24 /* pcm_player.c */,
+				1A8C87FC24A1CF4D0037EC8B /* player.h */,
+				1A8C87FD24A1CF4D0037EC8B /* player.c */,
 			);
 			path = MacRecorder;
 			sourceTree = "<group>";
@@ -829,6 +834,7 @@
 				1AA00433248F872300FEFC03 /* FileOperator.swift in Sources */,
 				09783704246F899E002A8C54 /* ViewController.swift in Sources */,
 				09783702246F899E002A8C54 /* AppDelegate.swift in Sources */,
+				1A8C87FE24A1CF4D0037EC8B /* player.c in Sources */,
 				1A25ECD92499C16100556BE9 /* sdl_render.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

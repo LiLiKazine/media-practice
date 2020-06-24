@@ -97,7 +97,7 @@ int refresh_video_timer(void *udata) {
     return 0;
 }
 
-void play_video(const char* dst) {
+void render_video(const char* dst) {
     FILE *video_fd = NULL;
     
     SDL_Event event;

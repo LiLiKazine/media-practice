@@ -13,6 +13,6 @@
 #include "SDL2/SDL.h"
 
 void create_renderer(void);
-void play_video(const char* dst);
+void render_video(const char* dst);
 
 #endif /* sdl_render_h */
