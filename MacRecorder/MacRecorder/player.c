@@ -23,7 +23,7 @@ void play_video(const char* src) {
     
     AVCodec *codec = NULL;
     AVFrame *frame = NULL;
-    
+    AVPicture *pict = NULL;
     AVPacket packet;
     
     //    int frame_finished;
@@ -142,7 +142,7 @@ void play_video(const char* src) {
     
     
     dst_frame = av_frame_alloc();
-    AVPicture *pict = (AVPicture *)malloc(sizeof(AVPicture));
+    pict = (AVPicture *)malloc(sizeof(AVPicture));
     avpicture_alloc(pict, AV_PIX_FMT_YUV420P, codec_ctx->width, codec_ctx->height);
 //    av_image_fill_arrays(&dst_frame->data[0], &dst_frame->linesize[0], NULL, AV_PIX_FMT_YUV420P, codec_ctx->width, codec_ctx->height, 0);
     while (av_read_frame(fmt_ctx, &packet) >= 0) {
