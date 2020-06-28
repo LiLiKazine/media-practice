@@ -26,8 +26,8 @@ void play_video(const char* src) {
     
     AVPacket packet;
     
-//    int frame_finished;
-//    float aspect_ratio;
+    //    int frame_finished;
+    //    float aspect_ratio;
     
     AVFrame *dst_frame = NULL;
     
@@ -143,6 +143,7 @@ void play_video(const char* src) {
     
     dst_frame = av_frame_alloc();
     
+//    av_image_fill_arrays(&dst_frame->data[0], &dst_frame->linesize[0], NULL, AV_PIX_FMT_YUV420P, codec_ctx->width, codec_ctx->height, 0);
     while (av_read_frame(fmt_ctx, &packet) >= 0) {
         if (packet.stream_index == video_stream) {
             ret = avcodec_send_packet(codec_ctx, &packet);
@@ -158,7 +159,11 @@ void play_video(const char* src) {
                     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to receive frame. - %s\n", av_err2str(ret));
                     break;
                 }
-                
+
+                ret = av_image_alloc(dst_frame->data, dst_frame->linesize, codec_ctx->width, codec_ctx->height, AV_PIX_FMT_YUV420P, 0);
+                if (ret < 0) {
+                    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to alloc image. - %s\n", av_err2str(ret));
+                }
                 sws_scale(sws_ctx,
                           (const uint8_t *const *)frame->data,
                           frame->linesize,
@@ -234,3 +239,140 @@ __FAIL:
     
     SDL_Quit();
 }
+//
+//void copy_player() {
+//    char filePath[] = "/home/lvzg/Videos/a.ts";
+//    int videoIndex = -1, i;
+//    int ret;
+//    int gotPicture;
+//    
+//    struct SwsContext *swsConvertCtx;
+//    AVFormatContext *pFormatCtx;
+//    AVCodecContext  *pCodecCtx;
+//    AVCodec         *pCodec;
+//    AVFrame         *pFrame,*pFrameYUV;
+//    AVPacket        *packet;
+//    unsigned char   *outBuffer;
+//    unsigned int     outBufferSize;
+//    
+//    SDL_Window      *sdlScreen;
+//    SDL_Renderer    *sdlRenderer;
+//    SDL_Texture     *sdlTexture;
+//    SDL_Rect         sdlRect;
+//    
+//    av_register_all();
+//    avformat_network_init();
+//    pFormatCtx = avformat_alloc_context();
+//    
+//    if(avformat_open_input(&pFormatCtx, filePath, NULL, NULL) != 0){
+//        printf("Couldn't open input stream.\n");
+//        return;
+//    }
+//    
+//    if(avformat_find_stream_info(pFormatCtx,NULL) < 0){
+//        printf("Couldn't find stream information.\n");
+//        return;
+//    }
+//    
+//    for(i = 0; i < pFormatCtx->nb_streams; i++){
+//        if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO){
+//            videoIndex = i;
+//            break;
+//        }
+//    }
+//    if(videoIndex == -1){
+//        printf("Didn't find a video stream.\n");
+//        return;
+//    }
+//    
+//    pCodecCtx = pFormatCtx->streams[videoIndex]->codec;
+//    pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+//    if(pCodec == NULL){
+//        printf("Codec not found.\n");
+//        return;
+//    }
+//    
+//    if(avcodec_open2(pCodecCtx, pCodec, NULL) < 0){
+//        printf("Could not open codec.\n");
+//        return;
+//    }
+//    
+//    pFrame = av_frame_alloc();
+//    pFrameYUV = av_frame_alloc();
+//    
+//    outBufferSize =
+//    avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+//    outBuffer = (unsigned char *)av_malloc(outBufferSize);
+//    avpicture_fill((AVPicture *)pFrameYUV, outBuffer,
+//                   AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+//    packet = (AVPacket*)av_malloc(sizeof(AVPacket));
+//    
+//    swsConvertCtx = sws_getContext(
+//                                   pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt,
+//                                   pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P,
+//                                   SWS_BICUBIC, NULL, NULL, NULL);
+//    if(swsConvertCtx == NULL){
+//        goto AV_CLEAN;
+//    }
+//    
+//    // SDL init
+//    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)){
+//        printf( "Could not initialize SDL - %s\n", SDL_GetError());
+//        return;
+//    }
+//    
+//    sdlScreen = SDL_CreateWindow("Linux Media Player",
+//                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+//                                 pCodecCtx->width, pCodecCtx->height,
+//                                 SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+//    if(!sdlScreen) {
+//        printf("SDL_CreateWindow failed.\n");
+//        return;
+//    }
+//    
+//    sdlRenderer = SDL_CreateRenderer(sdlScreen, -1, 0);
+//    sdlTexture = SDL_CreateTexture(sdlRenderer, SDL_PIXELFORMAT_YV12,
+//                                   SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
+//    
+//    sdlRect.x = 0;
+//    sdlRect.y = 0;
+//    sdlRect.w = pCodecCtx->width;
+//    sdlRect.h = pCodecCtx->height;
+//    
+//    while(av_read_frame(pFormatCtx, packet) >= 0){
+//        if(packet->stream_index == videoIndex){
+//            ret = avcodec_decode_video2(pCodecCtx, pFrame, &gotPicture, packet);
+//            if(ret < 0){
+//                printf("decode error\n");
+//                return;
+//            }
+//            if(gotPicture){
+//                sws_scale(swsConvertCtx,
+//                          (const unsigned char * const *)pFrame->data,
+//                          pFrame->linesize, 0, pCodecCtx->height,
+//                          (const unsigned char * const *)pFrameYUV->data,
+//                          pFrameYUV->linesize);
+//                SDL_UpdateYUVTexture(sdlTexture, &sdlRect,
+//                                     pFrameYUV->data[0], pFrameYUV->linesize[0],
+//                                     pFrameYUV->data[1], pFrameYUV->linesize[1],
+//                                     pFrameYUV->data[2], pFrameYUV->linesize[2]);
+//                SDL_RenderClear(sdlRenderer);
+//                SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, &sdlRect);
+//                SDL_RenderPresent(sdlRenderer);
+//                SDL_Delay(40);
+//            }
+//        }
+//        av_free_packet(packet);
+//    }
+//    
+//    sws_freeContext(swsConvertCtx);
+//    SDL_DestroyTexture(sdlTexture);
+//    SDL_Quit();
+//    
+//AV_CLEAN:
+//    av_frame_free(&pFrameYUV);
+//    av_frame_free(&pFrame);
+//    avcodec_close(pCodecCtx);
+//    avformat_close_input(&pFormatCtx);
+//    
+//}
