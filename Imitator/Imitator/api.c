@@ -62,17 +62,15 @@ void cut_video(const char* src,
                int64_t end) {
     int ret = 0;
     AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;
-
-    AVCodec* decoder = NULL;
     
     ret = avformat_open_input(&ifmt_ctx, src, NULL, NULL);
     if (ret < 0) {
-        
+        goto fail;
     }
     
     ret = avformat_alloc_output_context2(&ofmt_ctx, NULL, NULL, dst);
     if (ret < 0) {
-        
+        goto fail;
     }
     
     for (int i = 0; i < ifmt_ctx->nb_streams; i++) {
@@ -97,13 +95,12 @@ void cut_video(const char* src,
     
     ret = avio_open(&ofmt_ctx->pb, dst, AVIO_FLAG_WRITE);
     if (ret < 0) {
-        av_log(NULL, AV_LOG_ERROR, "%s", av_err2str(ret));
-        return;
+        goto fail;
     }
     
     ret = avformat_write_header(ofmt_ctx, NULL);
     if (ret < 0) {
-        
+        goto fail;
     }
     int64_t begin_time = begin / av_q2d(ifmt_ctx->streams[i_vstream]->time_base);
     
@@ -111,25 +108,74 @@ void cut_video(const char* src,
     
     ret = avformat_seek_file(ifmt_ctx, i_vstream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_FRAME);
     if (ret < 0) {
-
+        goto fail;
     }
     
+    int64_t *dts_start_from = malloc(sizeof(int64_t) * ifmt_ctx->nb_streams);
+    memset(dts_start_from, 0, sizeof(int64_t) * ifmt_ctx->nb_streams);
+    int64_t *pts_start_from = malloc(sizeof(int64_t) * ifmt_ctx->nb_streams);
+    memset(pts_start_from, 0, sizeof(int64_t) * ifmt_ctx->nb_streams);
+    
+    AVPacket pkt;
     while (1) {
-
+        AVStream *istream, *ostream;
+        
+        ret = av_read_frame(ifmt_ctx, &pkt);
+        if (ret < 0) {
+            goto fail;
+        }
+        istream = ifmt_ctx->streams[pkt.stream_index];
+        ostream = ofmt_ctx->streams[pkt.stream_index];
+        
+        if (pkt.pts * av_q2d(istream->time_base) > end) {
+            av_packet_unref(&pkt);
+            break;
+        }
+        
+        if (dts_start_from[pkt.stream_index] == 0) {
+            dts_start_from[pkt.stream_index] = pkt.dts;
+            printf("dts_start_from: %s\n", av_ts2str(dts_start_from[pkt.stream_index]));
+        }
+        if (pts_start_from[pkt.stream_index] == 0) {
+            pts_start_from[pkt.stream_index] = pkt.pts;
+            printf("pts_start_from: %s\n", av_ts2str(pts_start_from[pkt.stream_index]));
+        }
+        
+        pkt.pts = av_rescale_q_rnd(pkt.pts - pts_start_from[pkt.stream_index], istream->time_base, ostream->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+        pkt.dts = av_rescale_q_rnd(pkt.dts - dts_start_from[pkt.stream_index], istream->time_base, ostream->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+        if (pkt.pts < 0) {
+            pkt.pts = 0;
+        }
+        if (pkt.dts < 0) {
+            pkt.dts = 0;
+        }
+        if (pkt.pts < pkt.dts) {
+            pkt.pts = pkt.dts;
+        }
+        pkt.duration = av_rescale_q(pkt.duration, istream->time_base, ostream->time_base);
+        pkt.pos = -1;
+        
+        ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
+        if (ret < 0) {
+            goto fail;
+        }
+        av_packet_unref(&pkt);
     }
     
-//
-//    AVPacket ipkt, opkt;
-//    av_init_packet(&ipkt);
-//    while (av_read_frame(ifmt_ctx, &ipkt)) {
-//        if (ipkt.pts * av_q2d()) {
-//            <#statements#>
-//        }
-//        if (ipkt.stream_index != i_vstream) {
-//            continue;
-//        }
-//        av_write_frame(ofmt_ctx, &ipkt);
-//    }
-//    av_write_trailer(ofmt_ctx);
+    av_write_trailer(ofmt_ctx);
+    
+fail:
+    if (ret < 0) {
+        av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+    }
+    if (ifmt_ctx) {
+        avformat_close_input(&ifmt_ctx);
+    }
+    
+    if (ofmt_ctx) {
+        avio_closep(&ofmt_ctx->pb);
+        avformat_free_context(ofmt_ctx);
+        
+    }
     
 }
