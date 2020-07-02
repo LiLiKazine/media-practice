@@ -78,7 +78,7 @@ void cut_video(const char* src,
         AVCodec* decoder = avcodec_find_decoder(istream->codecpar->codec_id);
         AVStream* ostream = avformat_new_stream(ofmt_ctx, decoder);
         avcodec_parameters_copy(ostream->codecpar, istream->codecpar);
-//        ostream->codecpar->codec_tag = 0;
+        ostream->codecpar->codec_tag = 0;
         
     }
 //
