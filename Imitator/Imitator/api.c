@@ -137,10 +137,24 @@ void extract_video(const char* src,
         goto fail;
     }
     
+    int64_t begin_time = begin / av_q2d(ifmt_ctx->streams[istream]->time_base);
+
+    ret = avformat_seek_file(ifmt_ctx, istream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_ANY);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    int64_t dts_start = -1;
+    int64_t pts_start = -1;
     
     while ((ret = av_read_frame(ifmt_ctx, &pkt)) == 0) {
         if (pkt.stream_index != istream) {
             continue;
+        }
+        
+        if (pkt.pts * av_q2d(ifmt_ctx->streams[istream]->time_base) > end) {
+            av_packet_unref(&pkt);
+            break;
         }
         
         ret = av_bsf_send_packet(bsf_ctx, &pkt);
@@ -150,8 +164,33 @@ void extract_video(const char* src,
         }
         
         while ((ret = av_bsf_receive_packet(bsf_ctx, &pkt)) == 0) {
-//            ret = av_write_frame(ofmt_ctx, &pkt);
+            
+            if (dts_start < 0) {
+                dts_start = pkt.dts;
+            }
+            if (pts_start < 0) {
+                pts_start = pkt.pts;
+            }
+            
+            pkt.pts = av_rescale_q_rnd(pkt.pts-pts_start, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+            pkt.dts = av_rescale_q_rnd(pkt.dts-dts_start, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+            if (pkt.pts < 0) {
+                pkt.pts = 0;
+            }
+            
+            if (pkt.dts < 0) {
+                pkt.dts = 0;
+            }
+            
+            if (pkt.pts < pkt.dts) {
+                pkt.pts = pkt.dts;
+            }
+            
+            pkt.duration = av_rescale_q(pkt.duration, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base);
+            pkt.pos = -1;
+            
             ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
+            
             av_packet_unref(&pkt);
             
         }
@@ -174,6 +213,29 @@ void extract_video(const char* src,
     ret = av_bsf_send_packet(bsf_ctx, NULL);
     while ((ret = av_bsf_receive_packet(bsf_ctx, &pkt)) == 0) {
         ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
+        if (dts_start < 0) {
+            dts_start = pkt.dts;
+        }
+        if (pts_start < 0) {
+            pts_start = pkt.pts;
+        }
+        
+        pkt.pts = av_rescale_q_rnd(pkt.pts-pts_start, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+        pkt.dts = av_rescale_q_rnd(pkt.dts-dts_start, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base, AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX);
+        if (pkt.pts < 0) {
+            pkt.pts = 0;
+        }
+        
+        if (pkt.dts < 0) {
+            pkt.dts = 0;
+        }
+        
+        if (pkt.pts < pkt.dts) {
+            pkt.pts = pkt.dts;
+        }
+        
+        pkt.duration = av_rescale_q(pkt.duration, ifmt_ctx->streams[istream]->time_base, ofmt_ctx->streams[istream]->time_base);
+        pkt.pos = -1;
         av_packet_unref(&pkt);
     }
     
@@ -253,7 +315,7 @@ void cut_video(const char* src,
     
     av_log(NULL, AV_LOG_INFO, "begin time: %lld", begin_time);
     
-    ret = avformat_seek_file(ifmt_ctx, i_vstream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_FRAME);
+    ret = avformat_seek_file(ifmt_ctx, i_vstream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_ANY);
     if (ret < 0) {
         goto fail;
     }

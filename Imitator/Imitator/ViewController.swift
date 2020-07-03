@@ -91,7 +91,7 @@ class ViewController: NSViewController {
         let end = Int64(length / 100 * endSlider.integerValue)
         DispatchQueue.global().async {
 //            cut_video(src.path, dst.path, begin, end, nil)
-            extract_video(src.path, dst.path, 0, 0)
+            extract_video(src.path, dst.path, begin, end)
         }
     }
     
