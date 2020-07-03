@@ -40,4 +40,11 @@ void cut_video(const char* src,
                int64_t end,
                AVCodec* encoder);
 
+void dump_filters(void);
+
+void extract_video(const char* src,
+                   const char* dst,
+                   int64_t begin,
+                   int64_t end);
+
 #endif /* api_h */

@@ -56,6 +56,149 @@ void media_legth(AVFormatContext* fmt_ctx,
     }
 }
 
+void dump_filters() {
+    const AVBitStreamFilter* bsf = NULL;
+    void* state = NULL;
+    while ((bsf = av_bsf_iterate(&state))) {
+        av_log(NULL, AV_LOG_INFO, "%s\n", bsf->name);
+    }
+}
+
+void extract_video(const char* src,
+                   const char* dst,
+                   int64_t begin,
+                   int64_t end) {
+    int ret = 0;
+    
+    AVFormatContext* ifmt_ctx = NULL;
+    AVFormatContext* ofmt_ctx = NULL;
+    AVBSFContext* bsf_ctx = NULL;
+    AVPacket pkt;
+    
+    ret = avformat_open_input(&ifmt_ctx, src, NULL, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    ret = avformat_find_stream_info(ifmt_ctx, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    ret = avformat_alloc_output_context2(&ofmt_ctx, NULL, NULL, dst);
+    if (ret < 0) {
+        goto fail;
+    }
+    int istream = 0;
+    for (int i = 0; i < ifmt_ctx->nb_streams; i++) {
+        AVStream* stream = ifmt_ctx->streams[i];
+        if (stream->codecpar->codec_type != AVMEDIA_TYPE_VIDEO) {
+            continue;
+        }
+        istream = i;
+        AVCodec* decoder = avcodec_find_decoder(stream->codecpar->codec_id);
+        AVStream* new_stream = avformat_new_stream(ofmt_ctx, decoder);
+        ret = avcodec_parameters_copy(new_stream->codecpar, stream->codecpar);
+        if (ret < 0) {
+            goto fail;
+        }
+        new_stream->codecpar->codec_tag = 0;
+    }
+    
+    ret = avio_open(&ofmt_ctx->pb, dst, AVIO_FLAG_WRITE);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    ret = avformat_write_header(ofmt_ctx, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    const AVBitStreamFilter* bsf_filter = av_bsf_get_by_name("h264_mp4toannexb");
+    if (!bsf_filter) {
+        goto fail;
+    }
+    
+    ret = av_bsf_alloc(bsf_filter, &bsf_ctx);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    ret = avcodec_parameters_copy(bsf_ctx->par_in, ifmt_ctx->streams[istream]->codecpar);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    bsf_ctx->time_base_in = ifmt_ctx->streams[istream]->time_base;
+    
+    ret = av_bsf_init(bsf_ctx);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    
+    while ((ret = av_read_frame(ifmt_ctx, &pkt)) == 0) {
+        if (pkt.stream_index != istream) {
+            continue;
+        }
+        
+        ret = av_bsf_send_packet(bsf_ctx, &pkt);
+        
+        if (ret < 0) {
+            goto fail;
+        }
+        
+        while ((ret = av_bsf_receive_packet(bsf_ctx, &pkt)) == 0) {
+//            ret = av_write_frame(ofmt_ctx, &pkt);
+            ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
+            av_packet_unref(&pkt);
+            
+        }
+        
+        if (ret == AVERROR(EAGAIN)) {
+            av_packet_unref(&pkt);
+            continue;
+        }
+        
+        if (ret == AVERROR_EOF) {
+            break;
+        }
+        
+        if (ret < 0) {
+            goto fail;
+        }
+        
+    }
+    
+    ret = av_bsf_send_packet(bsf_ctx, NULL);
+    while ((ret = av_bsf_receive_packet(bsf_ctx, &pkt)) == 0) {
+        ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
+        av_packet_unref(&pkt);
+    }
+    
+    av_write_trailer(ofmt_ctx);
+    
+fail:
+    av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+    
+    av_packet_unref(&pkt);
+    
+    if (bsf_ctx) {
+        av_bsf_free(&bsf_ctx);
+    }
+    
+    if (ifmt_ctx) {
+        avformat_close_input(&ifmt_ctx);
+    }
+    
+    if (ofmt_ctx) {
+        avio_closep(&ofmt_ctx->pb);
+        avformat_free_context(ofmt_ctx);
+        
+    }
+}
+
 void cut_video(const char* src,
                const char* dst,
                int64_t begin,
@@ -65,6 +208,10 @@ void cut_video(const char* src,
     AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;
     
     ret = avformat_open_input(&ifmt_ctx, src, NULL, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    ret = avformat_find_stream_info(ifmt_ctx, NULL);
     if (ret < 0) {
         goto fail;
     }
@@ -82,7 +229,6 @@ void cut_video(const char* src,
         ostream->codecpar->codec_tag = 0;
         
     }
-//
     
     int i_vstream = av_find_best_stream(ifmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
 //
@@ -170,9 +316,6 @@ void cut_video(const char* src,
         pkt.pos = -1;
         
         ret = av_interleaved_write_frame(ofmt_ctx, &pkt);
-        if (ret < 0) {
-            goto fail;
-        }
         av_packet_unref(&pkt);
     }
     
