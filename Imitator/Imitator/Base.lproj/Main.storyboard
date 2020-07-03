@@ -767,14 +767,25 @@
                                     <action selector="buttonAction:" target="XfG-lQ-9wD" id="fcr-2Y-btn"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5s1-Vy-yMB">
+                                <rect key="frame" x="391" y="48" width="71" height="15"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="mp4" drawsBackground="YES" id="fom-VW-sis">
+                                    <font key="font" metaFont="system" size="8"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="5s1-Vy-yMB" firstAttribute="bottom" secondItem="thk-Qn-XzY" secondAttribute="bottom" id="4QR-c3-s8q"/>
                             <constraint firstItem="lU7-Zv-s4I" firstAttribute="leading" secondItem="Vp4-dP-iLv" secondAttribute="trailing" constant="8" id="5h3-Ix-rfH"/>
                             <constraint firstItem="thk-Qn-XzY" firstAttribute="leading" secondItem="aTU-XB-wGP" secondAttribute="trailing" constant="8" id="6C7-wj-eGo"/>
                             <constraint firstItem="thk-Qn-XzY" firstAttribute="centerY" secondItem="aTU-XB-wGP" secondAttribute="centerY" id="BAd-cG-dgg"/>
                             <constraint firstItem="cSd-5m-76o" firstAttribute="top" secondItem="lU7-Zv-s4I" secondAttribute="top" id="Fcr-ct-zIU"/>
+                            <constraint firstItem="5s1-Vy-yMB" firstAttribute="trailing" secondItem="cSd-5m-76o" secondAttribute="trailing" id="Gox-km-frT"/>
                             <constraint firstItem="thk-Qn-XzY" firstAttribute="trailing" secondItem="lU7-Zv-s4I" secondAttribute="trailing" id="Pbg-Rv-ulb"/>
                             <constraint firstItem="qas-zV-CPN" firstAttribute="top" secondItem="aTU-XB-wGP" secondAttribute="bottom" constant="18" id="Peu-fJ-lNz"/>
+                            <constraint firstItem="5s1-Vy-yMB" firstAttribute="leading" secondItem="cSd-5m-76o" secondAttribute="leading" id="Q3b-c2-N3s"/>
                             <constraint firstItem="Ixf-4y-Nj9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="24" id="THx-OY-LeJ"/>
                             <constraint firstItem="lU7-Zv-s4I" firstAttribute="trailing" secondItem="cSd-5m-76o" secondAttribute="leading" constant="-8" id="Usv-Tb-m00"/>
                             <constraint firstItem="lU7-Zv-s4I" firstAttribute="centerY" secondItem="Vp4-dP-iLv" secondAttribute="centerY" id="W3K-fV-gHl"/>
@@ -794,6 +805,7 @@
                         <outlet property="endTextField" destination="thk-Qn-XzY" id="MWx-i4-8QU"/>
                         <outlet property="extractButton" destination="cSd-5m-76o" id="EGu-xf-YJy"/>
                         <outlet property="fileTextField" destination="qas-zV-CPN" id="Cyw-oT-ZRR"/>
+                        <outlet property="fmtTextField" destination="5s1-Vy-yMB" id="EIz-c6-Bs7"/>
                         <outlet property="importButton" destination="Ixf-4y-Nj9" id="aiI-Uw-Q4S"/>
                         <outlet property="startSlider" destination="Vp4-dP-iLv" id="fTg-F5-Dy1"/>
                         <outlet property="startTextField" destination="lU7-Zv-s4I" id="Ypc-tB-ZbK"/>

@@ -59,7 +59,8 @@ void media_legth(AVFormatContext* fmt_ctx,
 void cut_video(const char* src,
                const char* dst,
                int64_t begin,
-               int64_t end) {
+               int64_t end,
+               AVCodec* encoder) {
     int ret = 0;
     AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;
     
@@ -131,6 +132,19 @@ void cut_video(const char* src,
             av_packet_unref(&pkt);
             break;
         }
+        
+        // recode
+//        enum AVMediaType itype = istream->codecpar->codec_type;
+//        if (itype == AVMEDIA_TYPE_AUDIO ||
+//            itype == AVMEDIA_TYPE_VIDEO ||
+//            itype == AVMEDIA_TYPE_SUBTITLE) {
+//            
+//            
+//            
+//        } else {
+//            av_packet_unref(&pkt);
+//            continue;
+//        }
         
         if (dts_start_from[pkt.stream_index] == 0) {
             dts_start_from[pkt.stream_index] = pkt.dts;

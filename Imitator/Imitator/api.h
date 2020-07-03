@@ -37,6 +37,7 @@ void media_legth(AVFormatContext* fmt_ctx,
 void cut_video(const char* src,
                const char* dst,
                int64_t begin,
-               int64_t end);
+               int64_t end,
+               AVCodec* encoder);
 
 #endif /* api_h */

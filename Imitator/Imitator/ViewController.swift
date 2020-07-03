@@ -12,6 +12,7 @@ import Combine
 class ViewController: NSViewController {
     
     @IBOutlet weak var extractButton: NSButton!
+    @IBOutlet weak var fmtTextField: NSTextField!
     @IBOutlet weak var importButton: NSButton!
     @IBOutlet weak var fileTextField: NSTextField!
     @IBOutlet weak var startTextField: NSTextField!
@@ -82,11 +83,15 @@ class ViewController: NSViewController {
         guard let src = filePath, let length = videoLength else {
             return
         }
-        let name = src.lastPathComponent
+        let ext = fmtTextField.stringValue.isEmpty ?
+            "mp4" : fmtTextField.stringValue
+        let name = src.deletingPathExtension().appendingPathExtension(ext).lastPathComponent
         let dst = src.deletingLastPathComponent().appendingPathComponent("new_" + name)
         let begin = Int64(length / 100 * startSlider.integerValue)
         let end = Int64(length / 100 * endSlider.integerValue)
-        cut_video(src.path, dst.path, begin, end)
+        DispatchQueue.global().async {
+            cut_video(src.path, dst.path, begin, end, nil)
+        }
     }
     
     func openFM() {
