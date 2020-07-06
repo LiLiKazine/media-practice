@@ -139,7 +139,7 @@ void extract_video(const char* src,
     
     int64_t begin_time = begin / av_q2d(ifmt_ctx->streams[istream]->time_base);
 
-    ret = avformat_seek_file(ifmt_ctx, istream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_ANY);
+    ret = avformat_seek_file(ifmt_ctx, istream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_BACKWARD);
     if (ret < 0) {
         goto fail;
     }
@@ -315,7 +315,7 @@ void cut_video(const char* src,
     
     av_log(NULL, AV_LOG_INFO, "begin time: %lld", begin_time);
     
-    ret = avformat_seek_file(ifmt_ctx, i_vstream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_ANY);
+    ret = avformat_seek_file(ifmt_ctx, i_vstream, INT64_MIN, begin_time, INT64_MAX, AVSEEK_FLAG_BACKWARD);
     if (ret < 0) {
         goto fail;
     }
