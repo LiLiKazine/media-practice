@@ -19,15 +19,14 @@ class ViewController: NSViewController {
     @IBOutlet weak var endTextField: NSTextField!
     @IBOutlet weak var startSlider: NSSlider!
     @IBOutlet weak var endSlider: NSSlider!
+    @IBOutlet weak var testIMV: NSImageView!
     
     private var subscriptions: Set<AnyCancellable> = []
     
     var filePath: URL? {
         didSet {
             DispatchQueue.main.async {
-                if let path = self.filePath?.path {
-                    self.display(path: path)
-                }
+                self.display()
                 self.fileTextField.stringValue = self.filePath?.path ?? ""
             }
         }
@@ -41,6 +40,7 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSImage(data: Data())
 
     }
 
@@ -112,7 +112,11 @@ class ViewController: NSViewController {
         .store(in: &subscriptions)
     }
     
-    func display(path: String) {
+    func display() {
+        guard let url = filePath else {
+            return
+        }
+        let path = url.path
         dump(nil, 0, path, 0)
         
         var audioInfo: UnsafeMutablePointer<AudioInfo>?
@@ -126,6 +130,7 @@ class ViewController: NSViewController {
         if let videoInfo = videoInfo?.pointee {
             videoLength = Int(videoInfo.duration)
         }
+        frame_2_pic(path, url.deletingLastPathComponent().path)
     }
     
 }

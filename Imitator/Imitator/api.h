@@ -14,6 +14,7 @@
 #include "libavformat/avformat.h"
 #include "libavformat/avio.h"
 #include "libavutil/timestamp.h"
+#include "libswscale/swscale.h"
 
 struct AudioInfo {
     AVDictionary* metadata;
@@ -46,5 +47,7 @@ void extract_video(const char* src,
                    const char* dst,
                    int64_t begin,
                    int64_t end);
+
+void frame_2_pic(const char* src, const char* dir);
 
 #endif /* api_h */

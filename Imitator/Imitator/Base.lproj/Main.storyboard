@@ -775,6 +775,11 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lrv-w3-yIm">
+                                <rect key="frame" x="144" y="190" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="OuV-QP-odB"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="5s1-Vy-yMB" firstAttribute="bottom" secondItem="thk-Qn-XzY" secondAttribute="bottom" id="4QR-c3-s8q"/>
@@ -809,6 +814,7 @@
                         <outlet property="importButton" destination="Ixf-4y-Nj9" id="aiI-Uw-Q4S"/>
                         <outlet property="startSlider" destination="Vp4-dP-iLv" id="fTg-F5-Dy1"/>
                         <outlet property="startTextField" destination="lU7-Zv-s4I" id="Ypc-tB-ZbK"/>
+                        <outlet property="testIMV" destination="lrv-w3-yIm" id="xgr-6K-Bwk"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

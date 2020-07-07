@@ -8,6 +8,8 @@
 
 #include "api.h"
 
+#define INBUF_SIZE 4096
+
 void dump(AVFormatContext* fmt_ctx,
           int index,
           const char* url,
@@ -61,6 +63,205 @@ void dump_filters() {
     void* state = NULL;
     while ((bsf = av_bsf_iterate(&state))) {
         av_log(NULL, AV_LOG_INFO, "%s\n", bsf->name);
+    }
+}
+
+static void pgm_save(unsigned char *buf, int wrap, int xsize, int ysize, char *filename) {
+    FILE *f;
+    int i;
+    f = fopen(filename, "w");
+    fprintf(f, "P5\n%d %d\n%d\n", xsize, ysize, 255);
+    for (i = 0; i<ysize; i++) {
+        fwrite(buf + i * wrap, 1, xsize, f);
+    }
+    fclose(f);
+}
+
+static void png_save(AVCodecContext* decoder_ctx, AVFrame* frame, const char* filename) {
+    int ret = 0;
+    AVCodec* encoder = NULL;
+    AVCodecContext* encoder_ctx = NULL;
+    encoder = avcodec_find_encoder(AV_CODEC_ID_JPEG2000);
+    if (!encoder) {
+        av_log(NULL, AV_LOG_ERROR, "Can't find encoder for jpg.\n");
+        goto fail;
+    }
+    encoder_ctx = avcodec_alloc_context3(encoder);
+    if (!encoder_ctx) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc encoder context.\n");
+        goto fail;
+    }
+    
+    encoder_ctx->pix_fmt = decoder_ctx->pix_fmt;
+    encoder_ctx->height = frame->height;
+    encoder_ctx->width = frame->width;
+    encoder_ctx->time_base = decoder_ctx->time_base;
+    
+    AVPacket *pkt = av_packet_alloc();
+    ret = avcodec_open2(encoder_ctx, encoder, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    ret = avcodec_send_frame(encoder_ctx, frame);
+    if (ret < 0) {
+        goto fail;
+    }
+    FILE* f;
+    f = fopen(filename, "wb");
+    while ((ret = avcodec_receive_packet(encoder_ctx, pkt)) >= 0) {
+        fwrite(pkt->data, 1, pkt->size, f);
+    }
+    fclose(f);
+    
+fail:
+    if (pkt) {
+        av_packet_free(&pkt);
+    }
+    if (encoder_ctx) {
+        avcodec_close(encoder_ctx);
+    }
+    av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+}
+
+static void decode(AVCodecContext *codec_ctx, AVFrame* frame, AVPacket* pkt, const char* dir) {
+    char buf[1024];
+    int ret = 0;
+    
+    ret = avcodec_send_packet(codec_ctx, pkt);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    while (ret >= 0) {
+        ret = avcodec_receive_frame(codec_ctx, frame);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            break;
+        }
+        if (ret < 0) {
+            break;
+        }
+        
+        if (frame->key_frame != 1) {
+            av_log(NULL, AV_LOG_INFO, "not key frame\n");
+            continue;
+        }
+        
+        printf("saving frame %3d\n", codec_ctx->frame_number);
+        fflush(stdout);
+        snprintf(buf, sizeof(buf), "%s/%s-%d.jpg", dir, "filename", codec_ctx->frame_number);
+//        pgm_save(frame->data[0], frame->linesize[0], frame->width, frame->height, buf);
+        png_save(codec_ctx, frame, buf);
+        
+    }
+    
+fail:
+    av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+}
+
+void frame_2_pic(const char* src, const char* dir) {
+    
+    int ret = 0;
+    
+    uint8_t inbuf[INBUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE];
+    
+    memset(inbuf + INBUF_SIZE, 0, AV_INPUT_BUFFER_PADDING_SIZE);
+    
+    AVFormatContext* fmt_ctx = NULL;
+//    enum AVCodecID codecID;
+    
+    AVCodec* codec = NULL;
+    
+//    AVCodecParserContext* parser_ctx = NULL;
+    
+    AVCodecContext* codec_ctx = NULL;
+    
+    AVFrame* frame = NULL;
+    
+    int istream = 0;
+    
+    ret = avformat_open_input(&fmt_ctx, src, NULL, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    istream = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
+    
+//    codecID = fmt_ctx->video_codec_id;
+    
+//    codec = avcodec_find_decoder(codecID);
+    if (!codec) {
+        av_log(NULL, AV_LOG_ERROR, "Can't find decoder for video.\n");
+        goto fail;
+    }
+//    parser_ctx = av_parser_init(codecID);
+//    if (!parser_ctx) {
+//        av_log(NULL, AV_LOG_ERROR, "Can't find parser for decoder.\n");
+//        goto fail;
+//    }
+    
+    codec_ctx = avcodec_alloc_context3(codec);
+    if (!codec_ctx) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc context for decoder.\n");
+        goto fail;
+    }
+
+    ret = avcodec_open2(codec_ctx, codec, NULL);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    frame = av_frame_alloc();
+    if (!frame) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc video frame.\n");
+        goto fail;
+    }
+    
+    AVPacket pkt;
+    
+    while((ret = av_read_frame(fmt_ctx, &pkt)) == 0) {
+//        AVPacket* opkt = av_packet_alloc();
+//        if (!opkt) {
+//            av_log(NULL, AV_LOG_ERROR, "Can't alloc output packet.\n");
+//            goto fail;
+//        }
+        
+//        ret = av_parser_parse2(parser_ctx, codec_ctx, &opkt->data, &opkt->size, pkt.data, pkt.size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
+//
+//        if (ret < 0) {
+//            av_packet_free(&opkt);
+//            goto fail;
+//        }
+//        decode(codec_ctx, frame, opkt);
+        
+//        av_packet_free(&opkt);
+        if (pkt.stream_index != istream ) {
+            av_packet_unref(&pkt);
+            continue;
+        }
+        
+        decode(codec_ctx, frame, &pkt, dir);
+        av_packet_unref(&pkt);
+    }
+    
+fail:
+    if (ret < 0) {
+        av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+    }
+    
+    if (fmt_ctx) {
+        avformat_close_input(&fmt_ctx);
+    }
+    
+    if (codec_ctx) {
+        avcodec_free_context(&codec_ctx);
+    }
+    
+//    if (parser_ctx) {
+//        av_parser_close(parser_ctx);
+//    }
+//
+    if (frame) {
+        av_frame_free(&frame);
     }
 }
 
