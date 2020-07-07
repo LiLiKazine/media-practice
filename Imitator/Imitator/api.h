@@ -50,4 +50,6 @@ void extract_video(const char* src,
 
 void frame_2_pic(const char* src, const char* dir);
 
+uint8_t* h264_2_data(uint8_t** data, int** length, const char* src);
+
 #endif /* api_h */

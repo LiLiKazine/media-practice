@@ -130,7 +130,10 @@ class ViewController: NSViewController {
         if let videoInfo = videoInfo?.pointee {
             videoLength = Int(videoInfo.duration)
         }
-        frame_2_pic(path, url.deletingLastPathComponent().path)
+        
+        let res = h264_2_data(nil, nil, path)
+
+        print(res?.pointee)
     }
     
 }
