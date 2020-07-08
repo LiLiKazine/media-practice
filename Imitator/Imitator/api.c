@@ -277,7 +277,64 @@ fail:
     }
 }
 
-uint8_t* h264_2_data(uint8_t** data, int** length, const char* src) {
+AVFrame* frame_2_data(AVFrame* inframe, AVFrame** outframe) {
+    
+    AVPacket* opkt = NULL;
+    AVFrame* oframe = NULL;
+    
+    struct SwsContext *sws_ctx = NULL;
+    
+    opkt = av_packet_alloc();
+   
+    oframe = av_frame_alloc();
+    if (!opkt || !oframe) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc packet or frame.\n");
+        return NULL;
+    }
+    
+    oframe->width = inframe->width;
+    oframe->height = inframe->height;
+    oframe->format = AV_PIX_FMT_RGB24;
+    
+    int buf_size = av_image_get_buffer_size(oframe->format, oframe->width, oframe->width, 1);
+    
+    uint8_t* img_buf = av_malloc(buf_size);
+    
+    av_image_fill_arrays(&oframe->data[0],
+                         oframe->linesize,
+                         img_buf,
+                         inframe->format,
+                         inframe->width,
+                         inframe->height,
+                         1);
+    
+    sws_ctx = sws_getContext(inframe->width,
+                             inframe->height,
+                             inframe->format,
+                             oframe->width,
+                             oframe->height,
+                             oframe->format,
+                             SWS_BILINEAR,
+                             NULL,
+                             NULL,
+                             NULL);
+    if (!sws_ctx) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc SwsContext.\n");
+        return NULL;
+    }
+    
+    sws_scale(sws_ctx,
+              (const uint8_t *const *)inframe->data,
+              inframe->linesize,
+              0,
+              inframe->height,
+              oframe->data,
+              oframe->linesize);
+    outframe = &oframe;
+    return oframe;
+}
+
+AVFrame* h264_2_data(const char* src) {
     int ret = 0;
     AVFormatContext* fmt_ctx = NULL;
     AVCodec* decoder = NULL;
@@ -341,7 +398,9 @@ uint8_t* h264_2_data(uint8_t** data, int** length, const char* src) {
             }
             printf("saving frame %3d\n", decoder_ctx->frame_number);
             fflush(stdout);
-            return frame->data;
+            AVFrame* outframe;
+            return frame_2_data(frame, &outframe);
+            
             
         }
         av_packet_unref(&pkt);

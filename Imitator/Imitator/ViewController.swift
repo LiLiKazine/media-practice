@@ -113,6 +113,8 @@ class ViewController: NSViewController {
     }
     
     func display() {
+        
+        
         guard let url = filePath else {
             return
         }
@@ -131,9 +133,21 @@ class ViewController: NSViewController {
             videoLength = Int(videoInfo.duration)
         }
         
-        let res = h264_2_data(nil, nil, path)
-
-        print(res?.pointee)
+        var dstData = UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>.allocate(capacity: 4);
+        
+        
+        let test = h264_2_data(path)
+        if let frame = test?.pointee {
+            let width = frame.width
+            let height = frame.height
+            dstData = frame.data.0 + frame.data.1 + frame.data.2
+            
+            
+            let image = NSImage(data: Data(bytes: dstData, count: Int(width*height)*3))
+            
+            testIMV.image = image
+            
+        }
     }
     
 }
