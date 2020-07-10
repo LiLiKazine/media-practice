@@ -112,8 +112,8 @@ class ViewController: NSViewController {
     }
     
     
-    let tb = Thumbnails()
     
+    let ex = Extract()
     
     func display() {
         
@@ -135,26 +135,17 @@ class ViewController: NSViewController {
             videoLength = Int(videoInfo.duration)
         }
         
-        
+        let name = url.deletingPathExtension().appendingPathExtension("h264").lastPathComponent
+        let dst = url.deletingLastPathComponent().appendingPathComponent("new_" + name)
         
         DispatchQueue.global().async {
-            self.tb.save(path)
+            if (self.ex.openInput(path) < 0) {
+                print("Can't open input.\n")
+                return
+            }
+            self.ex.extractH264(dst.path)
         }
-//        var dstData = UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>.allocate(capacity: 4);
-        
-        
-//        let test = h264_2_data(path)
-//        if let frame = test?.pointee {
-//            let width = frame.width
-//            let height = frame.height
-//            dstData = frame.data.0 + frame.data.1 + frame.data.2
-//            
-//            
-//            let image = NSImage(data: Data(bytes: dstData, count: Int(width*height)*3))
-//            
-//            testIMV.image = image
-//            
-//        }
+
     }
     
 }

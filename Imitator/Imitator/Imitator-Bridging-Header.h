@@ -3,4 +3,5 @@
 //
 
 #include "oc/Thumbnails.h"
+#include "oc/Extract.h"
 #include "api.h"
