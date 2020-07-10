@@ -40,7 +40,6 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSImage(data: Data())
 
     }
 
@@ -112,8 +111,11 @@ class ViewController: NSViewController {
         .store(in: &subscriptions)
     }
     
+    
+    let tb = Thumbnails()
+    
+    
     func display() {
-        
         
         guard let url = filePath else {
             return
@@ -133,21 +135,26 @@ class ViewController: NSViewController {
             videoLength = Int(videoInfo.duration)
         }
         
-        var dstData = UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>.allocate(capacity: 4);
         
         
-        let test = h264_2_data(path)
-        if let frame = test?.pointee {
-            let width = frame.width
-            let height = frame.height
-            dstData = frame.data.0 + frame.data.1 + frame.data.2
-            
-            
-            let image = NSImage(data: Data(bytes: dstData, count: Int(width*height)*3))
-            
-            testIMV.image = image
-            
+        DispatchQueue.global().async {
+            self.tb.save(path)
         }
+//        var dstData = UnsafeMutablePointer<UnsafeMutablePointer<UInt8>?>.allocate(capacity: 4);
+        
+        
+//        let test = h264_2_data(path)
+//        if let frame = test?.pointee {
+//            let width = frame.width
+//            let height = frame.height
+//            dstData = frame.data.0 + frame.data.1 + frame.data.2
+//            
+//            
+//            let image = NSImage(data: Data(bytes: dstData, count: Int(width*height)*3))
+//            
+//            testIMV.image = image
+//            
+//        }
     }
     
 }

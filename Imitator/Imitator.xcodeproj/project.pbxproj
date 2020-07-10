@@ -29,6 +29,7 @@
 		1A67116224A9E7530028825E /* libavcodec.58.86.101.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A67115224A9E7520028825E /* libavcodec.58.86.101.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A67116A24A9E82B0028825E /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A67116924A9E82B0028825E /* api.c */; };
 		1A7F215724AD7FC6001A889D /* FileOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F215624AD7FC6001A889D /* FileOperator.swift */; };
+		1AFBA01224B6ABF800BC2CD7 /* Thumbnails.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFBA01124B6ABF800BC2CD7 /* Thumbnails.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -194,6 +195,8 @@
 		1A74E70424A9EA7100417ADD /* avio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avio.h; sourceTree = "<group>"; };
 		1A74E70524A9EA7100417ADD /* avformat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avformat.h; sourceTree = "<group>"; };
 		1A7F215624AD7FC6001A889D /* FileOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperator.swift; sourceTree = "<group>"; };
+		1AFBA01024B6ABF800BC2CD7 /* Thumbnails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Thumbnails.h; sourceTree = "<group>"; };
+		1AFBA01124B6ABF800BC2CD7 /* Thumbnails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Thumbnails.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +242,7 @@
 				1A6710A324A9E1010028825E /* AppDelegate.swift */,
 				1A6710A524A9E1010028825E /* ViewController.swift */,
 				1A7F215624AD7FC6001A889D /* FileOperator.swift */,
+				1AFBA00F24B6ABD500BC2CD7 /* oc */,
 				1A67116824A9E82B0028825E /* api.h */,
 				1A67116924A9E82B0028825E /* api.c */,
 				1A6710A724A9E1040028825E /* Assets.xcassets */,
@@ -458,6 +462,15 @@
 			path = libavformat;
 			sourceTree = "<group>";
 		};
+		1AFBA00F24B6ABD500BC2CD7 /* oc */ = {
+			isa = PBXGroup;
+			children = (
+				1AFBA01024B6ABF800BC2CD7 /* Thumbnails.h */,
+				1AFBA01124B6ABF800BC2CD7 /* Thumbnails.m */,
+			);
+			path = oc;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -534,6 +547,7 @@
 				1A7F215724AD7FC6001A889D /* FileOperator.swift in Sources */,
 				1A6710A624A9E1010028825E /* ViewController.swift in Sources */,
 				1A6710A424A9E1010028825E /* AppDelegate.swift in Sources */,
+				1AFBA01224B6ABF800BC2CD7 /* Thumbnails.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
