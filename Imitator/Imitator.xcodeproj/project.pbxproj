@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A360F4624B83B0800B5FDF8 /* Extract.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A360F4524B83B0800B5FDF8 /* Extract.m */; };
 		1A6710A424A9E1010028825E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6710A324A9E1010028825E /* AppDelegate.swift */; };
 		1A6710A624A9E1010028825E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6710A524A9E1010028825E /* ViewController.swift */; };
 		1A6710A824A9E1040028825E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A6710A724A9E1040028825E /* Assets.xcassets */; };
@@ -54,6 +55,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A360F4424B83B0800B5FDF8 /* Extract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extract.h; sourceTree = "<group>"; };
+		1A360F4524B83B0800B5FDF8 /* Extract.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Extract.m; sourceTree = "<group>"; };
 		1A6710A024A9E1010028825E /* Imitator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Imitator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A6710A324A9E1010028825E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A6710A524A9E1010028825E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 			children = (
 				1AFBA01024B6ABF800BC2CD7 /* Thumbnails.h */,
 				1AFBA01124B6ABF800BC2CD7 /* Thumbnails.m */,
+				1A360F4424B83B0800B5FDF8 /* Extract.h */,
+				1A360F4524B83B0800B5FDF8 /* Extract.m */,
 			);
 			path = oc;
 			sourceTree = "<group>";
@@ -548,6 +553,7 @@
 				1A6710A624A9E1010028825E /* ViewController.swift in Sources */,
 				1A6710A424A9E1010028825E /* AppDelegate.swift in Sources */,
 				1AFBA01224B6ABF800BC2CD7 /* Thumbnails.m in Sources */,
+				1A360F4624B83B0800B5FDF8 /* Extract.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

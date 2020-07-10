@@ -3,29 +3,4 @@
    uuid = "77AB4867-A69A-4E70-A60F-924653306B40"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "9D3AE378-464B-480C-9808-4FED7D05C31D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = "malloc_error_break"
-            moduleName = "">
-            <Locations>
-               <Location
-                  uuid = "9D3AE378-464B-480C-9808-4FED7D05C31D - 9d096611641b4e7c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "malloc_error_break"
-                  moduleName = "libsystem_malloc.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>

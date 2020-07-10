@@ -80,6 +80,9 @@ NSURL* saveUrl;
 {
     NSString* filename = [NSString stringWithFormat:@"/Users/lisheng/Movies/%lld_file.jpg", frame->pkt_pos];
     int ret = 0;
+    
+//    uint8_t *dst_data[4];
+//    int dst_linesize[4];
     AVCodec* encoder = NULL;
     AVCodecContext* encode_ctx = NULL;
     struct SwsContext *sws_ctx = NULL;
@@ -88,69 +91,105 @@ NSURL* saveUrl;
         av_log(NULL, AV_LOG_ERROR, "Can't alloc packet.\n");
         return;
     }
+    
+    AVFrame* yuvFrame = NULL;
 
-    AVFrame* newFrame = av_frame_alloc();
-    if (!newFrame) {
+    AVFrame* rgbFrame = av_frame_alloc();
+    if (!rgbFrame) {
         av_log(NULL, AV_LOG_ERROR, "Can't alloc frame.\n");
         return;
     }
 
-    newFrame->width = 64;
-    newFrame->height = 48;
-    newFrame->format = frame->format;
+    rgbFrame->width = 64;
+    rgbFrame->height = 48;
+    rgbFrame->format = AV_PIX_FMT_RGB24;
+    //    int dst_bufsize;
+    ret = av_image_alloc(rgbFrame->data, rgbFrame->linesize,
+                         rgbFrame->width, rgbFrame->height, rgbFrame->format, 1);
+    if (ret < 0) {
+        goto fail;
+    }
+    //    dst_bufsize = ret;
    
-    sws_ctx = sws_getContext(frame->width,
-                             frame->height,
-                             frame->format,
-                             newFrame->width,
-                             newFrame->width,
-                             newFrame->format,
-                             SWS_BILINEAR,
-                             NULL,
-                             NULL,
-                             NULL);
+    sws_ctx = sws_getContext(frame->width, frame->height, frame->format,
+                             rgbFrame->width, rgbFrame->height, rgbFrame->format,
+                             SWS_BILINEAR, NULL, NULL, NULL);
     if (!sws_ctx) {
         av_log(NULL, AV_LOG_ERROR, "Can't alloc SwsContext.\n");
         goto fail;
     }
    
-    ret = av_image_alloc(newFrame->data, newFrame->linesize,
-                         newFrame->width, newFrame->height, newFrame->format, 1);
+
+    ret = sws_scale(sws_ctx,
+              (const uint8_t *const *)frame->data, frame->linesize,
+              0, frame->height,
+              rgbFrame->data, rgbFrame->linesize);
     if (ret < 0) {
         goto fail;
     }
     
+//    FILE* file = fopen([filename UTF8String], "wb");
+//    if (!file) {
+//        av_log(NULL, AV_LOG_ERROR, "Can't open file.\n");
+//        goto fail;
+//    }
+//     fwrite(newFrame->data, 1, dst_bufsize, file);
+    
+    yuvFrame = av_frame_alloc();
+    if (!yuvFrame) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc frame.\n");
+        return;
+    }
 
+    yuvFrame->width = rgbFrame->width;
+    yuvFrame->height = rgbFrame->height;
+    yuvFrame->format = AV_PIX_FMT_YUV420P;
+    ret = av_image_alloc(yuvFrame->data, yuvFrame->linesize,
+                   yuvFrame->width, yuvFrame->height, yuvFrame->format, 1);
+    if (ret < 0) {
+        goto fail;
+    }
+    
+    sws_freeContext(sws_ctx);
+    sws_ctx = sws_getContext(rgbFrame->width, rgbFrame->height, rgbFrame->format,
+                   yuvFrame->width, yuvFrame->height, yuvFrame->format,
+                   SWS_BILINEAR, NULL, NULL, NULL);
+    if (!sws_ctx) {
+        av_log(NULL, AV_LOG_ERROR, "Can't alloc SwsContext.\n");
+        goto fail;
+    }
+    
     ret = sws_scale(sws_ctx,
-              (const uint8_t *const *)frame->data,
-              frame->linesize,
-              0,
-              frame->height,
-              newFrame->data,
-              newFrame->linesize);
+              (const uint8_t *const *)rgbFrame->data, rgbFrame->linesize,
+              0, rgbFrame->height,
+              yuvFrame->data, yuvFrame->linesize);
+    if (ret < 0) {
+        goto fail;
+    }
+
     
     encoder = avcodec_find_encoder(AV_CODEC_ID_JPEG2000);
     if (!encoder) {
         av_log(NULL, AV_LOG_ERROR, "Can't find encoder for jpeg.\n");
         goto fail;
     }
-    
+
     encode_ctx = avcodec_alloc_context3(encoder);
     if (!encode_ctx) {
         av_log(NULL, AV_LOG_ERROR, "Can't find encoder context.\n");
         goto fail;
     }
-    
-    encode_ctx->pix_fmt = decode_ctx->pix_fmt;
-    encode_ctx->height = newFrame->height;
-    encode_ctx->width = newFrame->width;
+
+    encode_ctx->pix_fmt = yuvFrame->format;
+    encode_ctx->height = yuvFrame->height;
+    encode_ctx->width = yuvFrame->width;
     encode_ctx->time_base = decode_ctx->time_base;
     ret = avcodec_open2(encode_ctx, encoder, NULL);
     if (ret < 0) {
         goto fail;
     }
 
-    ret = avcodec_send_frame(encode_ctx, newFrame);
+    ret = avcodec_send_frame(encode_ctx, yuvFrame);
     if (ret < 0) {
         goto fail;
     }
@@ -164,8 +203,9 @@ NSURL* saveUrl;
     }
     fclose(file);
 fail:
-
-    av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+    if (ret < 0) {
+        av_log(NULL, AV_LOG_ERROR, "%s\n", av_err2str(ret));
+    }
     if (packet) {
         av_packet_free(&packet);
     }
@@ -175,8 +215,11 @@ fail:
     if (encode_ctx) {
         avcodec_free_context(&encode_ctx);
     }
-    if (newFrame) {
-        av_frame_free(&newFrame);
+    if (rgbFrame) {
+        av_frame_free(&rgbFrame);
+    }
+    if (yuvFrame) {
+        av_frame_free(&yuvFrame);
     }
 }
 
