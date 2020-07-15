@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Extract : NSObject
 
 -(int) openInput:(NSString*) path;
--(void) extractH264: (NSString*) dst;
+-(void) extractH264: (NSString*) dst begin: (int64_t) begin end: (int64_t) end;
+-(void) closeInput;
 
 @end
 

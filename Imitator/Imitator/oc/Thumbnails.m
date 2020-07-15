@@ -16,6 +16,7 @@
 }
 
 @end
+
 @implementation OCFrame
 
 @end
@@ -76,7 +77,7 @@ NSURL* saveUrl;
     
 }
 
-- (void)savevJPG:(AVFrame*) frame context:(AVCodecContext*) decode_ctx
+- (void)saveJPG:(AVFrame*) frame context:(AVCodecContext*) decode_ctx
 {
     NSString* filename = [NSString stringWithFormat:@"/Users/lisheng/Movies/%lld_file.jpg", frame->pkt_pos];
     int ret = 0;
@@ -232,8 +233,6 @@ fail:
     AVCodecContext* decode_ctx = NULL;
     AVFrame* frame = NULL;
     
-  
-    
     ret = avformat_open_input(&fmt_ctx, [src UTF8String], NULL, NULL);
     if (ret < 0) {
         goto fail;
@@ -258,8 +257,6 @@ fail:
     if (ret < 0) {
         goto fail;
     }
-    
-   
 
     AVPacket packet;
     av_init_packet(&packet);
@@ -282,7 +279,7 @@ fail:
                 continue;
             }
             
-            [self savevJPG:frame context:decode_ctx];
+            [self saveJPG:frame context:decode_ctx];
             
             av_packet_unref(&packet);
         }

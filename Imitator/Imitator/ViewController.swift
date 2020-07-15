@@ -136,14 +136,15 @@ class ViewController: NSViewController {
         }
         
         let name = url.deletingPathExtension().appendingPathExtension("h264").lastPathComponent
-        let dst = url.deletingLastPathComponent().appendingPathComponent("new_" + name)
+        let dst = url.deletingLastPathComponent().appendingPathComponent("raw", isDirectory: true).appendingPathComponent("new_" + name)
         
         DispatchQueue.global().async {
             if (self.ex.openInput(path) < 0) {
                 print("Can't open input.\n")
                 return
             }
-            self.ex.extractH264(dst.path)
+            self.ex.extractH264(dst.path, begin: -1, end: -1);
+            self.ex.closeInput()
         }
 
     }
