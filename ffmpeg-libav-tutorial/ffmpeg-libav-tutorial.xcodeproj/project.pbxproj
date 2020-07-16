@@ -28,6 +28,7 @@
 		1A04E13F24BEAD350066E545 /* cp01.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E13E24BEAD350066E545 /* cp01.m */; };
 		1A04E14124BEF9790066E545 /* FileOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E14024BEF9790066E545 /* FileOperator.swift */; };
 		1A04E14724BFF92A0066E545 /* cp02.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E14624BFF92A0066E545 /* cp02.m */; };
+		1A04E14A24C02B8B0066E545 /* cp03.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E14924C02B8B0066E545 /* cp03.m */; };
 		1A0954F224BE9A63000B2EC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0954F124BE9A63000B2EC5 /* AppDelegate.swift */; };
 		1A0954F424BE9A63000B2EC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0954F324BE9A63000B2EC5 /* ViewController.swift */; };
 		1A0954F624BE9A69000B2EC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0954F524BE9A69000B2EC5 /* Assets.xcassets */; };
@@ -71,6 +72,8 @@
 		1A04E14024BEF9790066E545 /* FileOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOperator.swift; sourceTree = "<group>"; };
 		1A04E14524BFF92A0066E545 /* cp02.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cp02.h; sourceTree = "<group>"; };
 		1A04E14624BFF92A0066E545 /* cp02.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cp02.m; sourceTree = "<group>"; };
+		1A04E14824C02B8B0066E545 /* cp03.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cp03.h; sourceTree = "<group>"; };
+		1A04E14924C02B8B0066E545 /* cp03.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cp03.m; sourceTree = "<group>"; };
 		1A0954EE24BE9A63000B2EC5 /* ffmpeg-libav-tutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ffmpeg-libav-tutorial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A0954F124BE9A63000B2EC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A0954F324BE9A63000B2EC5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +259,8 @@
 				1A04E13E24BEAD350066E545 /* cp01.m */,
 				1A04E14524BFF92A0066E545 /* cp02.h */,
 				1A04E14624BFF92A0066E545 /* cp02.m */,
+				1A04E14824C02B8B0066E545 /* cp03.h */,
+				1A04E14924C02B8B0066E545 /* cp03.m */,
 			);
 			path = "ffmpeg-libav-tutorial";
 			sourceTree = "<group>";
@@ -546,6 +551,7 @@
 				1A04E14124BEF9790066E545 /* FileOperator.swift in Sources */,
 				1A04E13F24BEAD350066E545 /* cp01.m in Sources */,
 				1A0954F224BE9A63000B2EC5 /* AppDelegate.swift in Sources */,
+				1A04E14A24C02B8B0066E545 /* cp03.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
