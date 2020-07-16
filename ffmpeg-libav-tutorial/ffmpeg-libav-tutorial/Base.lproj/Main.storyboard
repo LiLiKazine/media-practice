@@ -744,11 +744,11 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRY-6X-oua">
+                            <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRY-6X-oua">
                                 <rect key="frame" x="12" y="231" width="456" height="21"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fbC-uU-JJW">
-                                        <rect key="frame" x="-6" y="-7" width="468" height="32"/>
+                                        <rect key="frame" x="-6" y="-7" width="232" height="32"/>
                                         <buttonCell key="cell" type="push" title="greyscale" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sx8-tC-EzH">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -757,11 +757,23 @@
                                             <action selector="actions:" target="XfG-lQ-9wD" id="BHp-Kn-lwd"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aN6-hq-2mR">
+                                        <rect key="frame" x="230" y="-7" width="232" height="32"/>
+                                        <buttonCell key="cell" type="push" title="reformat" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sqz-xb-h9b">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actions:" target="XfG-lQ-9wD" id="UrY-4A-fkc"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
@@ -779,6 +791,7 @@
                         <outlet property="filenameTextField" destination="612-0n-Xvz" id="1rh-wx-qIB"/>
                         <outlet property="greyscaleButton" destination="fbC-uU-JJW" id="iJO-cu-Ndt"/>
                         <outlet property="importButton" destination="4V3-Kf-dRH" id="AIu-sh-UiI"/>
+                        <outlet property="reformatButton" destination="aN6-hq-2mR" id="ueU-6x-MQM"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

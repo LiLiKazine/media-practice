@@ -27,6 +27,7 @@
 		1A04E13C24BEAB850066E545 /* libSDL2-2.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 1A04E13A24BEAB850066E545 /* libSDL2-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A04E13F24BEAD350066E545 /* cp01.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E13E24BEAD350066E545 /* cp01.m */; };
 		1A04E14124BEF9790066E545 /* FileOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E14024BEF9790066E545 /* FileOperator.swift */; };
+		1A04E14724BFF92A0066E545 /* cp02.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A04E14624BFF92A0066E545 /* cp02.m */; };
 		1A0954F224BE9A63000B2EC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0954F124BE9A63000B2EC5 /* AppDelegate.swift */; };
 		1A0954F424BE9A63000B2EC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0954F324BE9A63000B2EC5 /* ViewController.swift */; };
 		1A0954F624BE9A69000B2EC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0954F524BE9A69000B2EC5 /* Assets.xcassets */; };
@@ -68,6 +69,8 @@
 		1A04E13D24BEAD350066E545 /* cp01.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cp01.h; sourceTree = "<group>"; };
 		1A04E13E24BEAD350066E545 /* cp01.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cp01.m; sourceTree = "<group>"; };
 		1A04E14024BEF9790066E545 /* FileOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOperator.swift; sourceTree = "<group>"; };
+		1A04E14524BFF92A0066E545 /* cp02.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cp02.h; sourceTree = "<group>"; };
+		1A04E14624BFF92A0066E545 /* cp02.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cp02.m; sourceTree = "<group>"; };
 		1A0954EE24BE9A63000B2EC5 /* ffmpeg-libav-tutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ffmpeg-libav-tutorial.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A0954F124BE9A63000B2EC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A0954F324BE9A63000B2EC5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 				1A0954FB24BE9A69000B2EC5 /* ffmpeg_libav_tutorial.entitlements */,
 				1A04E13D24BEAD350066E545 /* cp01.h */,
 				1A04E13E24BEAD350066E545 /* cp01.m */,
+				1A04E14524BFF92A0066E545 /* cp02.h */,
+				1A04E14624BFF92A0066E545 /* cp02.m */,
 			);
 			path = "ffmpeg-libav-tutorial";
 			sourceTree = "<group>";
@@ -536,6 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A04E14724BFF92A0066E545 /* cp02.m in Sources */,
 				1A0954F424BE9A63000B2EC5 /* ViewController.swift in Sources */,
 				1A04E14124BEF9790066E545 /* FileOperator.swift in Sources */,
 				1A04E13F24BEAD350066E545 /* cp01.m in Sources */,

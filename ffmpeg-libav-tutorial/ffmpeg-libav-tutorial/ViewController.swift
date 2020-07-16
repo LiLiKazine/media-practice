@@ -12,10 +12,12 @@ import Combine
 class ViewController: NSViewController {
     
     @IBOutlet weak var greyscaleButton: NSButton!
+    @IBOutlet weak var reformatButton: NSButton!
     @IBOutlet weak var filenameTextField: NSTextField!
     @IBOutlet weak var importButton: NSButton!
     
-    let cp = cp01()
+    lazy var p1 = cp01()
+    lazy var p2 = cp02()
     
     var subscriptions: Set<AnyCancellable> = []
     
@@ -61,6 +63,8 @@ class ViewController: NSViewController {
         switch sender {
         case greyscaleButton:
             saveGreyscale()
+        case reformatButton:
+            reformatVideo()
         default:
             //import
             importFile()
@@ -71,10 +75,21 @@ class ViewController: NSViewController {
         guard let src = src?.path, let dst = greyscaleURL, createDir(dst) else {
                 return
         }
-        cp.packet_limit = 200
-        cp.dst = dst.path
-        cp.open_input(src)
+        p1.packet_limit = 200
+        p1.dst = dst.path
+        DispatchQueue.global().async {
+            self.p1.open_input(src)
+        }
         
+    }
+    
+    func reformatVideo() {
+        guard let filename = src?.deletingPathExtension().lastPathComponent,
+            let dst = src?.deletingLastPathComponent().appendingPathComponent(filename).appendingPathExtension("ts").path,
+            let src = src?.path else { return }
+        DispatchQueue.global().async {
+            self.p2.reformat(src, destination: dst)
+        }
     }
     
     func importFile() {
